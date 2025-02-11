@@ -1,0 +1,48 @@
+/* :root */
+/* *{
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+} */
+
+@font-face {
+    font-family: Quicksand;
+    src: url(../../assets/Quicksand-Variable.ttf);
+  }
+  
+  /* *{
+    font-family: SpaceMono;
+  } */
+  
+  /* button,
+  div,
+  p,
+  span,
+  input,
+  li,
+  ul,
+  html,
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5, */
+  /* h6  */
+  html{
+    font-family: 'Quicksand', Fallback, sans-serif;
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    hyphens: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 500;
+
+    color: hsla(var(--r-text-secondary), 1);
+  }
+  
+  h1,h2,h3,h4,h5,h6 {
+    margin: 0;
+  }

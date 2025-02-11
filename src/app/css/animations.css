@@ -1,0 +1,451 @@
+.hide {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  transition: all 0.2s ease-in-out;
+}
+
+.show {
+  opacity: 1;
+  width: auto;
+  height: auto;
+  transition: all 0.2s ease-in-out;
+}
+
+.bounce {
+  animation: ease-in bounce 0.2s;
+}
+
+.bungee {
+  animation: ease-in bungee 0.2s;
+}
+
+.bungeeSVG {
+  svg {
+    animation: ease-in bungee 0.2s;
+  }
+}
+
+.bounceSVG {
+  svg {
+    animation: ease-in bounce 0.2s;
+  }
+}
+
+.bounceSVGright {
+  svg {
+    animation: ease-in bounceRight 0.2s;
+  }
+}
+
+.bounceSVGleft {
+  svg {
+    animation: ease-in bounceLeft 0.2s;
+  }
+}
+
+.bungeeSVG {
+  svg {
+    animation: ease-in bungee 0.2s;
+  }
+}
+
+.scaleSVG {
+  svg {
+    transition: 100ms;
+    transform: scale(0.9);
+  }
+}
+
+.bounceChild {
+  :nth-child(1) {
+    animation: ease-in bounce 0.2s;
+  }
+
+  [data-bounce] {
+    animation: ease-in bounce 0.2s;
+  }
+
+  svg {
+    animation: ease-in bounce 0.2s;
+  }
+}
+
+.bounceChildren {
+  >* {
+    animation: ease-in bounce 0.2s;
+  }
+}
+
+.bungeeChild {
+  :nth-child(1) {
+    animation: ease-in bungee 0.2s;
+  }
+
+  svg {
+    animation: ease-in bungee 0.2s;
+  }
+
+  [data-bungee] {
+    animation: ease-in bungee 0.2s;
+  }
+}
+
+.bungeeChildren {
+  >* {
+    animation: ease-in bungee 0.2s;
+  }
+}
+
+
+.scaleChild {
+  :nth-child(1) {
+    transition: 100ms;
+    transform: scale(0.9);
+  }
+}
+
+
+
+
+.fadeIn1000 {
+  animation: ease-in fadeIn 1s;
+}
+
+.fadeOut1000 {
+  animation: ease-out fadeOut 1s;
+}
+
+.fadeIn {
+  animation: ease-in fadeIn 0.5s;
+}
+
+.fadeOut {
+  animation: ease-out fadeOut 0.5s
+}
+
+.fadeIn200 {
+  animation: ease-in fadeIn 0.2s;
+}
+
+.fadeOut200 {
+  animation: ease-out fadeOut 0.2s
+}
+
+.fadeIn100 {
+  animation: ease-in fadeIn 0.1s;
+}
+
+.fadeOut100 {
+  animation: ease-out fadeOut 0.1s
+}
+
+.slideIn {
+  animation: ease-in slideIn 0.5s;
+}
+
+.slideOut {
+  animation: ease-out slideOut 0.5s;
+}
+
+.slideIn200 {
+  animation: ease-in slideIn 0.2s;
+}
+
+.slideOut200 {
+  animation: ease-out slideOut 0.2s;
+}
+
+.slideIn100 {
+  animation: ease-in slideIn 0.1s;
+}
+
+.slideOut100 {
+  animation: ease-out slideOut 0.1s;
+}
+
+.slideInRight200 {
+  animation: ease-in slideInRight 0.2s;
+}
+
+.slideOutRight200 {
+  animation: ease-out slideOutRight 0.2s
+}
+
+.slideInRight100 {
+  animation: ease-in slideInRight 0.1s;
+}
+
+.slideOutRight100 {
+  animation: ease-out slideOutRight 0.1s;
+}
+
+.expandDown200 {
+  animation: ease-in expandDown 0.2s;
+}
+
+.contractUp200 {
+  animation: ease-in contractUp 0.2s;
+}
+
+.expandDown100 {
+  animation: ease-in expandDown 0.1s;
+}
+
+.contractUp100 {
+  animation: ease-in contractUp 0.1s;
+}
+
+@keyframes expandDown {
+  from {
+    height: 0px;
+  }
+
+  to {
+    height: auto;
+  }
+}
+
+@keyframes contractUp {
+  from {
+    height: auto;
+  }
+
+  to {
+    height: 0px;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    margin-top: -48px;
+  }
+
+  to {
+    margin-top: 0;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    margin-top: 0px;
+  }
+
+  to {
+    margin-top: -48px;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    margin-right: -100%;
+  }
+
+  to {
+    margin-right: 0;
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    margin-right: 0px;
+  }
+
+  to {
+    margin-right: -100%;
+  }
+}
+
+@keyframes bounce {
+  from {
+    transform: translateY(0%);
+  }
+
+  50% {
+    transform: translateY(-3px);
+  }
+
+  to {
+    transform: translateY(0%);
+  }
+}
+
+@keyframes bounceRight {
+  from {
+    transform: translateX(0%);
+  }
+
+  50% {
+    transform: translateX(3px);
+  }
+
+  to {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes bounceLeft {
+  from {
+    transform: translateX(0%);
+  }
+
+  50% {
+    transform: translateX(-3px);
+  }
+
+  to {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes bungee {
+  from {
+    transform: translateY(0%);
+  }
+
+  50% {
+    transform: translateY(3px);
+  }
+
+  to {
+    transform: translateY(0%);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scaleY(0.0);
+  }
+
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+@keyframes scaleOut {
+  from {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scaleY(0.0);
+  }
+}
+
+.transformFromTop {
+  transform-origin: top;
+  transform: scaleY(0, 1);
+}
+
+.transformHeight {
+  height: 100%;
+  transition: height 200 0 ease-out;
+}
+
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 50px;
+  padding: 4px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: hsla(var(--r-ocean), 0.5);
+  --_m:
+    conic-gradient(#0000 10%, #000),
+    linear-gradient(#000 0 0) content-box;
+  -webkit-mask: var(--_m);
+  mask: var(--_m);
+  -webkit-mask-composite: source-out;
+  mask-composite: subtract;
+  animation: l3 1s infinite linear;
+}
+
+@keyframes l3 {
+  to {
+    transform: rotate(1turn)
+  }
+}
+
+
+/*
+staggered animation example use: 
+<div class="stagger">
+  <div style="--i: 1;">1</div>
+  <div style="--i: 2;">2</div>
+  <div style="--i: 3;">3</div>
+</div>
+*/
+.stagger {
+  >* {
+    animation-name: stagger;
+    animation-duration: 100ms;
+    animation-delay: calc(var(--i) * 44ms);
+    animation-fill-mode: both;
+    animation-timing-function: ease-in-out;
+  }
+}
+
+.reverse {
+  >* {
+    animation-direction: reverse;
+    animation-duration: 77ms;
+    animation-delay: calc(var(--i) * 33ms);
+  }
+}
+
+@keyframes stagger {
+  0% {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+/*staggered animation*/
+
+.fadeInUp {
+  animation: fadeInUp 0.2s ease forwards;
+  /* Adjust duration and easing as needed */
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    /* Start fully transparent */
+    transform: translateY(5px);
+    /* Start 5 pixels down */
+  }
+
+  100% {
+    opacity: 1;
+    /* End fully opaque */
+    transform: translateY(0);
+    /* End at original position */
+  }
+}

@@ -1,0 +1,115 @@
+button {
+  all: unset;
+  height: auto;
+  width: auto;
+  cursor: pointer;
+  padding: 0px 10px 0px 10px;
+  transition: 0.1s;
+  border-radius: 5px;
+  min-height: 36px;
+  max-height: 36px;
+  text-wrap: nowrap;
+  text-overflow: ellipsis;
+
+  background-color: hsla(var(--r-surface-back), 1);
+
+  &:hover {
+    background-color: hsla(var(--r-primary), 0.1);
+  }
+
+  &:focus {
+    background-color: hsla(var(--r-primary), 0.1);
+  }
+
+  /* border: 1px solid hsla(var(--black), 0.05);
+    &:hover{
+        filter: drop-shadow(0px 2px 3px hsla(var(--black), 0.15));
+    } */
+  [data-theme="Dark"] & {
+    background-color: hsla(var(--r-surface-back), 1);
+    box-shadow: inset 0px 0px 0px 1px hsla(var(--r-primary), 0.2);
+
+    &.submit {
+      background-color: hsla(var(--r-weak), 0.5);
+    }
+
+    &:hover {
+      background-color: hsla(var(--r-weak), 1);
+    }
+
+    &:focus {
+      background-color: hsla(var(--r-weak), 1);
+    }
+  }
+
+  [data-theme="Light"] & {
+    background-color: hsla(var(--r-surface-back), 1);
+    filter: drop-shadow(0px 2px 4px hsla(var(--black), 0.1));
+
+    &.submit {
+      filter: drop-shadow(0px 2px 4px hsla(var(--black), 0.2));
+
+      &:hover {
+        filter: drop-shadow(0px 2px 4px hsla(var(--black), 0.3));
+      }
+    }
+
+    &:hover {
+      background-color: hsla(var(--r-surface-back), 1);
+      filter: drop-shadow(0px 2px 4px hsla(var(--black), 0.2));
+    }
+
+    &:focus {
+      filter: drop-shadow(0px 2px 4px hsla(var(--black), 0.2));
+    }
+  }
+
+  &:has(input:disabled) {
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+}
+
+
+.defaultButton {
+  all: unset;
+  padding: 0px 19px 0px 19px;
+  transition: 0.1s;
+  border-radius: 5px;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border: 1px solid hsla(var(--r-primary), 0);
+
+  &:hover {
+    background-color: hsla(var(--r-primary), 0.1);
+  }
+
+  &:focus {
+    background-color: hsla(var(--r-primary), 0.1);
+  }
+
+  &.small {
+    padding: 0px 10px 0px 10px;
+
+    min-height: 34px;
+  }
+
+  &.bg {
+
+    background-color: hsla(var(--r-primary), 0.1);
+
+    &:hover {
+      background-color: hsla(var(--r-primary), 0.2);
+    }
+
+    &:focus {
+      background-color: hsla(var(--r-primary), 0.2);
+    }
+
+  }
+}

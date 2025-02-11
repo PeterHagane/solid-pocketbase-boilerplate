@@ -1,0 +1,10 @@
+.nav {
+    padding: 10px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+
+    @media (max-width: 400px) {
+        flex-wrap: unset;
+        justify-content: flex-start;
+    }
+}

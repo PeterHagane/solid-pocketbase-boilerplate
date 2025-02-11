@@ -1,0 +1,53 @@
+.profile {
+    margin: 10px;
+    // max-width: 1024px;
+    width: auto;
+    height: 100%;
+    width: 100%;
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+
+    .title {
+        margin-bottom: 10px;
+        // align-self: center;
+    }
+
+
+    .section {
+        // align-self: center;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin: 0 auto;
+        width: 100%;
+
+        .card {
+            max-width: 300px;
+            width: 100%;
+
+            &.summary {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                max-width: calc(300px - 20px);
+                width: calc(100% - 20px);
+                padding: 10px;
+                background-color: hsl(var(--r-surface-100));
+
+                >p {
+                    margin: 0;
+                }
+            }
+        }
+
+        @media (max-width: 600px) {
+            flex-direction: column;
+        }
+
+    }
+
+
+
+}

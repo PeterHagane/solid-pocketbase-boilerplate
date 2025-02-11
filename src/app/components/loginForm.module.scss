@@ -1,0 +1,11 @@
+.container {
+  width: 300px;
+
+  .inputContainer {
+    width: 100%;
+
+    >input {
+      width: calc(100% - 12px);
+    }
+  }
+}

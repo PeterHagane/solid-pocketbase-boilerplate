@@ -1,0 +1,21 @@
+.container {
+    user-select: none;
+    cursor: pointer;
+    height: 36px;
+
+    * {
+        mix-blend-mode: difference;
+    }
+
+
+
+    span {
+        mix-blend-mode: difference;
+    }
+}
+
+.logo {
+    cursor: pointer;
+    // mix-blend-mode: difference;
+    height: 36px;
+}

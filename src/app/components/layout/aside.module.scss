@@ -1,0 +1,19 @@
+aside{
+    padding: 10px;
+
+    .dropdown{
+        margin-left: auto;
+    }
+
+
+    &::before{
+        background-color: #4d2715;
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100px;
+        height: 100px;
+    }
+}
