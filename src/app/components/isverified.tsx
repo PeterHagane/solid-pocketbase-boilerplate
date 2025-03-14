@@ -29,7 +29,7 @@ export const IsVerified = () => {
                     <span class="flexGrow"></span>
                     <TbMailExclamation size={22} color="hsla(var(--r-error), 1)" />
                 </h4>
-                <p data-translate>If you lose your password you'll be locked out of your account.</p>
+                <p data-translate>If you lose your password before verifying you'll be locked out of your account.</p>
                 <form
                     oninput={(e) => {
                         setEmail({ ...email(), isValid: e.currentTarget.checkValidity() })
