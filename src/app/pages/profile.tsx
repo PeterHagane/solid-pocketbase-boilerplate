@@ -1,5 +1,7 @@
 import { changeStyle, uuid } from "../../utils/Utils";
-import { IsVerified } from "../components/isverified";
+import { AccountChangeEmail } from "../components/accountchangeemail";
+import { AccountIsVerified } from "../components/accountisverified";
+import { Disable } from "../components/layout/disable";
 import { T } from "../components/translate";
 import { userState } from "../stores/pocketBase";
 import css from "./profile.module.scss"
@@ -19,6 +21,7 @@ const profileIds = {
 
 export const Profile = () => {
 
+    
 
     return (
         <div
@@ -46,10 +49,10 @@ export const Profile = () => {
                     <p><T>Email</T>: {userState().user?.email}</p>
                     {userState().isAdmin && <p class={"flex row center"}><T>Admin</T>: {userState().isAdmin ? <>Yes <FaRegularChessKing class={"marginLeft5"} color="hsla(var(--r-good), 1)" /></> : "No"}</p>}
                     <div class="flexGrow" />
-                    <IsVerified />
 
-
-
+                    <AccountChangeEmail></AccountChangeEmail>
+                    <Disable disabled={false}><AccountIsVerified /></Disable>
+                    {/* {userState().user?.email && <IsVerified />} */}
 
                     {/* <p><T>Phone</T>: {userState().user?.phone}</p>
                     <p><T>Address</T>: {userState().user?.address}</p>

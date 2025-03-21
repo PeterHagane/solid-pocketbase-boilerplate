@@ -1,4 +1,4 @@
-import PocketBase from 'pocketbase';
+import PocketBase, { RecordModel } from 'pocketbase';
 import { notify } from '../components/notify';
 import { createSignal } from 'solid-js';
 import { ILoginForm } from '../components/loginForm';
@@ -76,7 +76,7 @@ export const registerUser = async ({ username, password }: ILoginForm) => {
     return await pb
         .collection("users")
         .create({
-            username, password, passwordConfirm: password
+            username: username, password: password, passwordConfirm: password
         })
         .then(() => {
             setUserState({
@@ -151,3 +151,90 @@ export const signOut = async () => {
     notify({ title: t(`Signed out`), color: "var(--good)", duration: 6000 })
 }
 
+
+export const requestEmailChange = async (email: string) => {
+    setUserState({
+        ...userState(),
+        isLoading: true,
+        isError: undefined,
+    })
+    return await pb.collection('users').requestEmailChange(email)
+    .then(()=>{
+        setUserState({
+            ...userState(),
+            isLoading: false,
+        })
+        notify({ title: t("Success"), color: "hsla(var(--r-good), 1)", duration: 6000 })
+        return true
+    }).catch(
+        (e)=>{
+            setUserState({
+                ...userState(),
+                isLoading: false,
+                isError: e,
+            })
+            notify({
+                title: t(`Couldn't save this email address.`),
+                color: "hsla(var(--r-danger), 1)",
+                message: t(e.response.data?.newEmail?.message ? e.response.data.newEmail.message : e.response.message ? e.response.message : ""),
+                duration: 6000,
+                dismissible: true })
+            return false
+        }
+    );
+}
+
+export const verifyUser = async (email: string) => {
+    let promise = pb.collection('users').requestVerification(email) 
+    
+    setLoadingErrorThenAndCatch(
+        promise,
+        "Couldn't send verification email.",
+        `${t("Verification email sent to")}: ${email}. ${t("Check your inbox")}.`
+    )
+}
+
+export const updateRecord = async(record: string, recordId: string, data: any )=>{
+    let promise = pb.collection(record).update(recordId, data);
+    // let response = await promise
+    setLoadingErrorThenAndCatch(
+        promise,
+        "Error",
+        `Success`
+    )
+}
+
+
+
+const setLoadingErrorThenAndCatch = async ( promise: Promise<boolean> |  Promise<RecordModel>, errorMsg?: string, successMsg?: string ) => {
+    setUserState({
+        ...userState(),
+        isLoading: true,
+        isError: undefined,
+    })
+    promise.then(()=>{
+        setUserState({
+            ...userState(),
+            isLoading: false,
+            isError: undefined
+        })
+        notify({ title: t(successMsg || "Success"), color: "hsla(var(--r-good), 1)", duration: 6000 })
+        return true
+    })
+    .catch(
+        (e)=>{
+            setUserState({
+                ...userState(),
+                isLoading: false,
+                isError: e,
+            })
+            notify({
+                title: t(errorMsg || "Error"),
+                color: "hsla(var(--r-danger), 1)",
+                message: t(e.response.data?.newEmail?.message ? e.response.data.newEmail.message : e.response.message ? e.response.message : ""),
+                duration: 6000,
+                dismissible: true })
+            return false
+        }
+    );
+}

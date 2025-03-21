@@ -145,3 +145,32 @@ export const uuid = (): string => {
     return v.toString(16);
   });
 }
+
+export function isValidEmail(email: string): boolean {
+  // First trim the email
+  const trimmedEmail = email.trim();
+  
+  // Check if there's a dot after the @ symbol
+  const atIndex = trimmedEmail.lastIndexOf('@');
+  if (atIndex === -1) return false;
+  
+  const domainPart = trimmedEmail.slice(atIndex + 1);
+  const hasDotAfterAt = domainPart.includes('.');
+  
+  // Regular expression for general email format
+  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  
+  return emailRegex.test(trimmedEmail) && hasDotAfterAt;
+}
+
+export const isValidEmailInput = (address: string, ref?: HTMLInputElement): boolean =>{
+  let isValid = isValidEmail(address)
+  if(isValid && ref){
+      ref.setCustomValidity("")
+      return true
+  }
+  if(!isValid && ref){
+      ref.setCustomValidity("Invalid email format.")
+      return false}
+  return false
+}
