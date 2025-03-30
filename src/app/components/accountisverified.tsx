@@ -53,7 +53,7 @@ export const AccountIsVerified = () => {
 
                     onSubmit={(e) => { e.preventDefault() }}
                     class="form flex column gap-s">
-                    <div class={"inputContainer"} >
+
                         <input
                             type="email"
                             onInput={(e) => { setEmail({ ...email(), address: e.target.value})}} id={emailId}
@@ -61,7 +61,7 @@ export const AccountIsVerified = () => {
                             required
                         />
                         <label data-translate for={emailId}>Email</label>
-                    </div>
+
                     <button
                         class="flex row center gap"
                         type="submit"

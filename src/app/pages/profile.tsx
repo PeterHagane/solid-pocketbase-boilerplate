@@ -8,7 +8,7 @@ import css from "./profile.module.scss"
 import cx from "classnames"
 import { FaRegularChessKing, FaRegularChessPawn } from 'solid-icons/fa'
 
-const profileIds = {
+const ids = {
     name: "name" + uuid(),
     email: "email" + uuid(),
     phone: "phone" + uuid(),
@@ -62,50 +62,33 @@ export const Profile = () => {
                 </div>
 
                 <form class={cx("flex start center column gap-s form", css.card)}>
-                    <div class={cx("inputContainer", css.inputContainer)}>
-                        <input id={profileIds.name} type="text" placeholder="Name" />
-                        <label data-translate for={profileIds.name}>Name</label>
-                    </div>
-                    <div class={cx("inputContainer", css.inputContainer)}>
+                    <input id={ids.name} type="text" placeholder="Name" />
+                    <label data-translate for={ids.name}>Name</label>
 
-                        <input id={profileIds.email} type="text" placeholder="Email" />
-                        <label data-translate for={profileIds.email}>Email</label>
-                    </div>
-                    <div class={cx("inputContainer", css.inputContainer)}>
+                    <input id={ids.email} type="text" placeholder="Email" />
+                    <label data-translate for={ids.email}>Email</label>
 
-                        <input id={profileIds.phone} type="text" placeholder="Phone" />
-                        <label data-translate for={profileIds.phone}>Phone</label>
-                    </div>
-                    <div class={cx("inputContainer", css.inputContainer)}>
-                        <input id={profileIds.address} type="text" placeholder="Address" />
-                        <label data-translate for={profileIds.address}>Address</label>
-                    </div>
+                    <input id={ids.phone} type="text" placeholder="Phone" />
+                    <label data-translate for={ids.phone}>Phone</label>
 
-                    <div class={cx("inputContainer", css.inputContainer)}>
+                    <input id={ids.address} type="text" placeholder="Address" />
+                    <label data-translate for={ids.address}>Address</label>
 
-                        <input id={profileIds.city} type="text" placeholder="City" />
-                        <label data-translate for={profileIds.city}>City</label>
-                    </div>
-                    <div class={cx("inputContainer", css.inputContainer)}>
+                    <input id={ids.city} type="text" placeholder="City" />
+                    <label data-translate for={ids.city}>City</label>
 
-                        <input id={profileIds.state} type="text" placeholder="State" />
-                        <label data-translate for={profileIds.state}>State</label>
-                    </div>
-                    <div class={cx("inputContainer", css.inputContainer)}>
+                    <input id={ids.state} type="text" placeholder="State" />
+                    <label data-translate for={ids.state}>State</label>
 
-                        <input id={profileIds.zip} type="text" placeholder="Zip" />
-                        <label data-translate for={profileIds.zip}>Zip</label>
-                    </div>
+                    <input id={ids.zip} type="text" placeholder="Zip" />
+                    <label data-translate for={ids.zip}>Zip</label>
+                    
+                    <input id={ids.zip} type="text" placeholder="Zip" />
+                    {/* <label data-translate for={profileIds.zip}>Zip</label> */}
 
                     <button data-translate type="submit">Save</button>
                 </form>
-
-
-
             </section>
-
-
-
         </div>
 
     )

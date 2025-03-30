@@ -34,7 +34,6 @@ export const AccountChangeEmail = () => {
                     }}
                     onSubmit={(e) => { e.preventDefault() }}
                     class="form flex column gap-s">
-                    <div class={"inputContainer"} >
                         <input
                             ref={emailRef}
                             type="email"
@@ -44,7 +43,6 @@ export const AccountChangeEmail = () => {
                             required
                         />
                         <label data-translate for={emailId}>Email</label>
-                    </div>
                     <button
                         class="flex row center gap"
                         type="submit"
@@ -86,7 +84,6 @@ const ChangeEmail = () => {
 
                     onSubmit={(e) => { e.preventDefault() }}
                     class="form flex column gap-s">
-                    <div class={"inputContainer"} >
                         <input
                             type="email"
                             onInput={(e) => { setEmail({ ...email(), address: e.target.value})}} id={emailId}
@@ -94,7 +91,6 @@ const ChangeEmail = () => {
                             required
                         />
                         <label data-translate for={emailId}>Email</label>
-                    </div>
                     <button
                         class="flex row center gap"
                         type="submit"

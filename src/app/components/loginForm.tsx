@@ -48,7 +48,6 @@ const LoginForm = (_props: ILoginFormProps) => {
             class={cx("flex start center column gap-s form", css.container, _props.class)}>
             {userState().isLoading && <Loader></Loader>}
             {_props.title && <h2 data-translate>{_props.title}</h2>}
-            <div class={cx("inputContainer", css.inputContainer)}>
                 <input oninput={(e) => {
                     setFields({ ...fields(), username: e.target.value })
                 }}
@@ -58,8 +57,7 @@ const LoginForm = (_props: ILoginFormProps) => {
                     minLength={3}
                 ></input>
                 <label for={loginIds.userName} data-translate>Username</label>
-            </div>
-            <div class={cx("inputContainer", css.inputContainer)}>
+
                 <input oninput={(e) => {
                     setFields({ ...fields(), password: e.target.value })
                 }}
@@ -71,7 +69,6 @@ const LoginForm = (_props: ILoginFormProps) => {
                     minLength={8}
                 ></input>
                 <label for={loginIds.password} data-translate>Password</label>
-            </div>
             <div class={cx("flex center gap-s disable", css.submitContainer)}>
                 <button
                     id="loginFormSubmitButton"
