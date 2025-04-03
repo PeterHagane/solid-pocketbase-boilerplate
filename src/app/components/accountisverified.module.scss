@@ -11,12 +11,18 @@
         width: calc(100% - 20px);
         
     }
-
+    &{
+        transition: background-color 1s;
+    }
     &.true {
         background-color: hsla(var(--r-good), 0.1);
     }
 
     &.false {
         background-color: hsla(var(--r-error), 0.1);
+    }
+
+    &.pending {
+        background-color: hsla(var(--r-warning), 0.2);
     }
 }

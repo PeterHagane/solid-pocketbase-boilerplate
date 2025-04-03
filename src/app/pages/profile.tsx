@@ -1,7 +1,5 @@
 import { changeStyle, uuid } from "../../utils/Utils";
-import { AccountChangeEmail } from "../components/accountchangeemail";
-import { AccountIsVerified } from "../components/accountisverified";
-import { Disable } from "../components/layout/disable";
+import { AccountEmailChange } from "../components/accountemailchange";
 import { T } from "../components/translate";
 import { userState } from "../stores/pocketBase";
 import css from "./profile.module.scss"
@@ -46,19 +44,10 @@ export const Profile = () => {
                 <div class={cx("flex column shadow rounding", css.card, css.summary)}>
                     <h2 data-translate>Summary</h2>
                     <p><T>Name</T>: {userState().user?.username}</p>
-                    <p><T>Email</T>: {userState().user?.email}</p>
+                    <p><T>Email</T>: {userState().email}</p>
                     {userState().isAdmin && <p class={"flex row center"}><T>Admin</T>: {userState().isAdmin ? <>Yes <FaRegularChessKing class={"marginLeft5"} color="hsla(var(--r-good), 1)" /></> : "No"}</p>}
                     <div class="flexGrow" />
-
-                    <AccountChangeEmail></AccountChangeEmail>
-                    <Disable disabled={false}><AccountIsVerified /></Disable>
-                    {/* {userState().user?.email && <IsVerified />} */}
-
-                    {/* <p><T>Phone</T>: {userState().user?.phone}</p>
-                    <p><T>Address</T>: {userState().user?.address}</p>
-                    <p><T>City</T>: {userState().user?.city}</p>
-
-                    <p><T>State</T>: {userState().user?.state}</p> */}
+                    <AccountEmailChange></AccountEmailChange>
                 </div>
 
                 <form class={cx("flex start center column gap-s form", css.card)}>

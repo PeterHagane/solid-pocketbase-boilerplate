@@ -1,12 +1,13 @@
-import PocketBase, { RecordModel } from 'pocketbase';
+import PocketBase from 'pocketbase';
+// import { TypedPocketBase } from "./pocketbase-types"
+
 import { notify } from '../components/notify';
 import { createSignal } from 'solid-js';
 import { ILoginForm } from '../components/loginForm';
 import { t } from './translationStore';
 
-
 const url = 'https://haproco.pockethost.io/'
-export const pb: PocketBase = new PocketBase(url)
+export const pb = new PocketBase(url)
 
 type PocketError = {
     response: PocketResponse
@@ -33,8 +34,10 @@ export type PocketSession = {
     user: {
         [key: string]: any;
     } | null
+    email: string,
     pb: PocketBase
     isLoading: boolean
+    isPendingChange: boolean
     isError: PocketError | undefined
     isSignedIn: boolean
     isAdmin: boolean
@@ -55,8 +58,10 @@ const getIsAdmin = async (userId?: string) => {
 
 export const [userState, setUserState] = createSignal<Partial<PocketSession>>({
     user: pb.authStore.record,
+    email: pb.authStore.record?.email,
     userToken: pb.authStore.token,
     isLoading: false,
+    isPendingChange: false,
     isError: undefined,
     isSignedIn: pb.authStore.isValid,
     isAdmin: await getIsAdmin(pb.authStore.record?.id) || false,
@@ -110,18 +115,18 @@ export const signIn = async ({ username, password }: ILoginForm) => {
     return await pb
         .collection("users")
         .authWithPassword(username, password)
-        .then(async () => {
+        .then(async (a) => {
             const isAdmin = await getIsAdmin(pb.authStore.record?.id)
             setUserState({
                 ...userState(),
-                user: pb.authStore.record,
+                user: a.record,
+                email: a.record.email,
                 isLoading: false,
                 isError: undefined,
                 isSignedIn: true,
                 isAdmin: isAdmin,
                 pb: pb,
                 userToken: pb.authStore.token
-
             })
             notify({ title: `${t(`Signed in`)}. ${t(`Welcome`)}, ${username}`, color: "hsla(var(--r-good), 1)", duration: 6000 })
             return true
@@ -152,7 +157,7 @@ export const signOut = async () => {
 }
 
 
-export const requestEmailChange = async (email: string) => {
+export const sendEmailChangeRequest = async (email: string) => {
     setUserState({
         ...userState(),
         isLoading: true,
@@ -174,7 +179,7 @@ export const requestEmailChange = async (email: string) => {
                 isError: e,
             })
             notify({
-                title: t(`Couldn't save this email address.`),
+                title: t(`Couldn't send request`),
                 color: "hsla(var(--r-danger), 1)",
                 message: t(e.response.data?.newEmail?.message ? e.response.data.newEmail.message : e.response.message ? e.response.message : ""),
                 duration: 6000,
@@ -184,13 +189,13 @@ export const requestEmailChange = async (email: string) => {
     );
 }
 
-export const verifyUser = async (email: string) => {
+export const sendVerificationRequest = async (email: string) => {
+    console.log("verifyUser")
     let promise = pb.collection('users').requestVerification(email) 
-    
-    setLoadingErrorThenAndCatch(
+    return await setLoadingErrorThenAndCatch(
         promise,
-        "Couldn't send verification email.",
-        `${t("Verification email sent to")}: ${email}. ${t("Check your inbox")}.`
+        `${t("Verification email sent to")}: ${email}. ${t("Check your inbox")}.`,
+        "Couldn't send verification email."
     )
 }
 
@@ -204,9 +209,18 @@ export const updateRecord = async(record: string, recordId: string, data: any )=
     )
 }
 
+export const updateCallback = async(callback: ()=>Promise<any>)=>{
+    let promise = callback()
+
+    setLoadingErrorThenAndCatch(
+        promise,
+        "Error",
+        `Success`
+    )
+}
 
 
-const setLoadingErrorThenAndCatch = async ( promise: Promise<boolean> |  Promise<RecordModel>, errorMsg?: string, successMsg?: string ) => {
+export const setLoadingErrorThenAndCatch = async ( promise: Promise<any>, successMsg?: string, errorMsg?: string ) => {
     setUserState({
         ...userState(),
         isLoading: true,
@@ -237,4 +251,69 @@ const setLoadingErrorThenAndCatch = async ( promise: Promise<boolean> |  Promise
             return false
         }
     );
+}
+
+
+
+export const subscribeAndCallback = async (collection: string, id: string, callback?: () => void) =>{
+    const unsub = await pb.collection(collection).subscribe(id, function (e) {
+        if(e.action === "update" && callback) {
+            callback() 
+            return unsub}
+    })
+}
+
+export const subAndUnsubOnUserChange = async(callback?: ()=>void) =>{
+    // const f = () =>{ return console.log("from function!")}
+    // const unsub = await subscribe("users", pb.authStore.record?.id || "", callback)
+    // "users", pb.authStore.record?.id || ""
+    
+    const unsub = await pb.collection("users").subscribe(pb.authStore.record?.id || "", (e)=> {
+        if(e.action === "update") { 
+            unsub()
+            if(callback)callback()
+        }
+    })
+}
+
+export const authRefresh = async(successMsg?: string, errorMsg?: string)=>{
+    setUserState({
+        ...userState(),
+        isPendingChange: true,
+        isLoading: false,
+        isError: undefined,
+    })
+    return await pb.collection('users').authRefresh().then(
+        (a)=>{
+            setUserState({
+                ...userState(),
+                user: a.record,
+                email: a.record?.email,
+                isLoading: false,
+                isPendingChange: false,
+                isError: undefined,
+                isSignedIn: true,
+                pb: pb,
+                userToken: pb.authStore.token
+            })
+         notify({ title: t(successMsg || "Success"), color: "hsla(var(--r-good), 1)", duration: 6000 })
+        }
+    ).catch(
+        (e)=>{
+            setUserState({
+                ...userState(), 
+                email: t("Reauthenticate to view changes"),
+                isPendingChange: false,
+                isLoading: false,
+                isError: e
+            })
+            notify({
+                title: t(errorMsg || "Log out and back in to see your changes."),
+                color: "hsla(var(--r-danger), 1)",
+                message: t(e.response.data?.newEmail?.message ? e.response.data.newEmail.message : e.response.message ? e.response.message : ""),
+                duration: 6000,
+                dismissible: true })
+        }
+    )
+
 }
