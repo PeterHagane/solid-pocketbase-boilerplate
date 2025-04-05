@@ -64,10 +64,11 @@ export const AccountEmailChange = () => {
                             placeholder="email"
                             required
                         />
-                        <label data-translate for={emailId}>Email</label>
+                        <label for={emailId} data-translate>Email</label>
                     <button
                         class="flex row center gap"
                         type="submit"
+                        disabled={!email().isValid}
                         onClick={
                             (e) => {
                                 changeStyle(e.currentTarget as HTMLElement, "bounceSVGright", 200)

@@ -1,15 +1,20 @@
-import { createSignal } from "solid-js";
+import { createSignal, Show } from "solid-js";
 import { useNavigate } from "@solidjs/router";
-import { registerUser, signIn, userState } from "../stores/pocketBase";
+import { pb, registerUser, setUserState, signIn, userState } from "../stores/pocketBase";
 import css from "./loginForm.module.scss"
 import cx from "classnames";
 import { Loader } from "./loader";
-import { changeStyle, uuid } from "../../utils/Utils";
+import { changeStyle, delay, delayStateChange, isValidEmail, isValidEmailInput, uuid } from "../../utils/Utils";
 import { IoEnterOutline } from "solid-icons/io";
+import { notify } from "./notify";
+import { t } from "../stores/translationStore";
 
 export const loginIds = {
     userName: "userName" + uuid(),
-    password: "password" + uuid()
+    password: "password" + uuid(),
+    registerButton: "register" + uuid(),
+    loginButton: "login" + uuid(),
+    forgotPasswordButton: "forgot" + uuid()
 }
 
 
@@ -40,38 +45,46 @@ const LoginForm = (_props: ILoginFormProps) => {
         })
     }
 
+    let usernameRef: HTMLInputElement | undefined;
+    let passwordRef: HTMLInputElement | undefined;
+
     return <>
-        <form oninput={(e) => {
-            setFields({ ...fields(), isValid: e.currentTarget.checkValidity() })
-        }}
+        <form oninput={(e) => {setFields({ ...fields(), isValid: e.currentTarget.checkValidity() })}}
             onSubmit={(e) => { e.preventDefault() }}
             class={cx("flex start center column gap-s form", css.container, _props.class)}>
+            
             {userState().isLoading && <Loader></Loader>}
-            {_props.title && <h2 data-translate>{_props.title}</h2>}
-                <input oninput={(e) => {
-                    setFields({ ...fields(), username: e.target.value })
-                }}
-                    class={"indentShadow"} type="username" id={loginIds.userName} placeholder="username or email"
-                    required autocomplete="on"
-                    autofocus
-                    minLength={3}
-                ></input>
-                <label for={loginIds.userName} data-translate>Username</label>
+                        {_props.title && <h2 data-translate>{_props.title}</h2>}
+            <input oninput={(e) => {
+                setFields({ ...fields(), username: e.target.value })
+            }}
+                ref={usernameRef}
+                class={"indentShadow"}
+                type="username"
+                id={loginIds.userName}
+                placeholder="username or email"
+                required autocomplete="on"
+                autofocus
+                minLength={3}
+            ></input>
+            <label for={loginIds.userName} data-translate>Username or email</label>
 
-                <input oninput={(e) => {
-                    setFields({ ...fields(), password: e.target.value })
-                }}
-
-                    class={"indentShadow flex center"} type="password" id={loginIds.password}
-                    placeholder="password"
-                    required
-                    autocomplete="on"
-                    minLength={8}
-                ></input>
-                <label for={loginIds.password} data-translate>Password</label>
-            <div class={cx("flex center gap-s disable", css.submitContainer)}>
+            <input oninput={(e) => {
+                setFields({ ...fields(), password: e.target.value })
+            }}
+                ref={passwordRef}
+                class={"indentShadow flex center"} 
+                type="password"
+                id={loginIds.password}
+                placeholder="password"
+                required
+                autocomplete="on"
+                minLength={8}
+            ></input>
+            <label for={loginIds.password} data-translate>Password</label>
+            <div class={cx("flex center gap-s", css.submitContainer)}>
                 <button
-                    id="loginFormSubmitButton"
+                    id={loginIds.loginButton}
                     type="submit"
                     data-translate
                     onClick={(e) => {
@@ -83,14 +96,52 @@ const LoginForm = (_props: ILoginFormProps) => {
                     value="signin"
                     disabled={!fields().isValid}>
                     Login
-                    {fields().isValid && <IoEnterOutline></IoEnterOutline>}
+                    <Show when={fields().isValid}>
+                        <IoEnterOutline></IoEnterOutline>
+                    </Show>
+                    {/* {fields().isValid && <IoEnterOutline></IoEnterOutline>} */}
                 </button>
                 <button
-                    id="register"
-                    type="submit"
+                    id={loginIds.registerButton}
                     onClick={() => handleRegister(fields())}
                     value="newuser"
-                    disabled={!fields().isValid} data-translate>Register user</button>
+                    type="submit"
+                    disabled={!fields().isValid} 
+                    data-translate>Register user</button>
+                <button
+                    class={css.forgot}
+                    id={loginIds.forgotPasswordButton}
+                    onClick={async()=>{
+                        const v = isValidEmail(usernameRef?.value || "")
+                        if(usernameRef && !v){
+                            usernameRef.setCustomValidity("Please enter a valid email.")
+                            delayStateChange(()=> usernameRef.setCustomValidity(""), 2000)
+                        }
+                        if(passwordRef){
+                            passwordRef.value = ""
+                            passwordRef.setCustomValidity(" ")
+                            delayStateChange(()=> passwordRef.setCustomValidity(""), 2000)
+                        }
+
+                        console.log(v)
+
+                        if(v){
+                            setUserState(prev => {return {...prev, isLoading: true}})
+                            await pb.collection('users').requestPasswordReset(fields().username).then(
+                            ()=>{
+                                setUserState(prev => {return {...prev, isLoading: false}}
+                                )
+                                notify(t("Password reset request sent to") + " " + usernameRef?.value)
+                            }
+                        ).catch(
+                            (e)=>{
+                                setUserState(prev => {return {...prev, isLoading: false}})
+                                notify(t(e))
+                            }
+                        );}
+                    }}
+                    value="forgot"
+                    data-translate>Forgot password?</button>
             </div>
         </form>
     </>;

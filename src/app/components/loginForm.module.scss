@@ -8,4 +8,14 @@
       width: calc(100% - 12px);
     }
   }
+
+  .submitContainer{
+    // width: calc(100% - 12px);
+    width: calc(100% - 12px);
+    flex-wrap: wrap;
+
+    .forgot{
+      color: hsla(var(--r-approve), 1);
+    }
+  }
 }
