@@ -4,7 +4,7 @@ import { pb, registerUser, setUserState, signIn, userState } from "../stores/poc
 import css from "./loginForm.module.scss"
 import cx from "classnames";
 import { Loader } from "./loader";
-import { changeStyle, delay, delayStateChange, isValidEmail, isValidEmailInput, uuid } from "../../utils/Utils";
+import { changeStyle, delayStateChange, isValidEmail, uuid } from "../../utils/Utils";
 import { IoEnterOutline } from "solid-icons/io";
 import { notify } from "./notify";
 import { t } from "../stores/translationStore";
@@ -66,6 +66,7 @@ const LoginForm = (_props: ILoginFormProps) => {
                 required autocomplete="on"
                 autofocus
                 minLength={3}
+                data-validity
             ></input>
             <label for={loginIds.userName} data-translate>Username or email</label>
 
@@ -80,6 +81,7 @@ const LoginForm = (_props: ILoginFormProps) => {
                 required
                 autocomplete="on"
                 minLength={8}
+                data-validity
             ></input>
             <label for={loginIds.password} data-translate>Password</label>
             <div class={cx("flex center gap-s", css.submitContainer)}>
@@ -122,8 +124,6 @@ const LoginForm = (_props: ILoginFormProps) => {
                             passwordRef.setCustomValidity(" ")
                             delayStateChange(()=> passwordRef.setCustomValidity(""), 2000)
                         }
-
-                        console.log(v)
 
                         if(v){
                             setUserState(prev => {return {...prev, isLoading: true}})

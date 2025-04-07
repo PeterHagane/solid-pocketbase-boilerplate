@@ -226,14 +226,14 @@ export const setLoadingErrorThenAndCatch = async ( promise: Promise<any>, succes
         isLoading: true,
         isError: undefined,
     })
-    promise.then(()=>{
+    return promise.then(()=>{
         setUserState({
             ...userState(),
             isLoading: false,
             isError: undefined
         })
         notify({ title: t(successMsg || "Success"), color: "hsla(var(--r-good), 1)", duration: 6000 })
-        return true
+        // return true
     })
     .catch(
         (e)=>{
@@ -248,7 +248,7 @@ export const setLoadingErrorThenAndCatch = async ( promise: Promise<any>, succes
                 message: t(e.response.data?.newEmail?.message ? e.response.data.newEmail.message : e.response.message ? e.response.message : ""),
                 duration: 6000,
                 dismissible: true })
-            return false
+            // return false
         }
     );
 }

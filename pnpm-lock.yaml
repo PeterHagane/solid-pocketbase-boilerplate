@@ -47,6 +47,9 @@ importers:
       solid-toast:
         specifier: ^0.5.0
         version: 0.5.0(solid-js@1.9.5)
+      solid-transition-group:
+        specifier: ^0.3.0
+        version: 0.3.0(solid-js@1.9.5)
     devDependencies:
       '@types/node':
         specifier: ^22.9.3
@@ -567,6 +570,11 @@ packages:
     peerDependencies:
       solid-js: ^1.6.12
 
+  '@solid-primitives/transition-group@1.1.0':
+    resolution: {integrity: sha512-pL1sEPCHuC4V+Yh+SQsKSPuGDYrZbLJYSkk3AB4TZrWhptEJUS0IHoi7BAynYcMiULbvMMVKFbeFHqINZq0+ig==}
+    peerDependencies:
+      solid-js: ^1.6.12
+
   '@solid-primitives/trigger@1.2.0':
     resolution: {integrity: sha512-sW4/3cDXSjYQampn8CIFZ11BlxgNf2li8r2fXnb3b3YWE6RdZZCl8PhvpPF38Gzl0CnryrbTPJWM7OIkseCDgQ==}
     peerDependencies:
@@ -828,6 +836,12 @@ packages:
     resolution: {integrity: sha512-t770JakjyS2P9b8Qa1zMLOD51KYKWXbTAyJePVUoYex5c5FH5S/HtUBUbZAWFcqRCKmAE8KhyIiCvDZA8bOnxQ==}
     peerDependencies:
       solid-js: ^1.5.4
+
+  solid-transition-group@0.3.0:
+    resolution: {integrity: sha512-gzFbtxkEnA8Hgi7UzmEjPPRl4rodoKLs+AGIXA7kJgjOr4j4qFRw39npu+WpdNSDV7aDKr+K0LFcoT9Kbm5PBA==}
+    engines: {node: '>=20.0.0', pnpm: '>=9.0.0'}
+    peerDependencies:
+      solid-js: ^1.6.12
 
   source-map-js@1.2.1:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
@@ -1341,6 +1355,10 @@ snapshots:
       '@solid-primitives/utils': 6.3.0(solid-js@1.9.5)
       solid-js: 1.9.5
 
+  '@solid-primitives/transition-group@1.1.0(solid-js@1.9.5)':
+    dependencies:
+      solid-js: 1.9.5
+
   '@solid-primitives/trigger@1.2.0(solid-js@1.9.5)':
     dependencies:
       '@solid-primitives/utils': 6.3.0(solid-js@1.9.5)
@@ -1621,6 +1639,12 @@ snapshots:
 
   solid-toast@0.5.0(solid-js@1.9.5):
     dependencies:
+      solid-js: 1.9.5
+
+  solid-transition-group@0.3.0(solid-js@1.9.5):
+    dependencies:
+      '@solid-primitives/refs': 1.1.0(solid-js@1.9.5)
+      '@solid-primitives/transition-group': 1.1.0(solid-js@1.9.5)
       solid-js: 1.9.5
 
   source-map-js@1.2.1: {}

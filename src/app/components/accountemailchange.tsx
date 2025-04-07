@@ -17,7 +17,6 @@ export const AccountEmailChange = () => {
 
     return (
         <>
-        
             {userState().isLoading && <Loader/>}
 
             <div class={cx("flex column gap-s", css.isVerified,
@@ -57,12 +56,14 @@ export const AccountEmailChange = () => {
                     onSubmit={(e) => { e.preventDefault() }}
                     class="form flex column gap-s">
                         <input
+                            // data-nolabel
                             ref={emailRef}
                             type="email"
                             onInput={(e) => { setEmail({ ...email(), address: e.target.value})}} 
                             id={emailId}
                             placeholder="email"
                             required
+                            data-validity
                         />
                         <label for={emailId} data-translate>Email</label>
                     <button

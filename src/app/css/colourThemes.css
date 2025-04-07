@@ -35,9 +35,7 @@ html[data-theme="Light"] {
 
   .indentShadow {
     box-shadow: hsla(var(--r-black), 0.1) 0px 3px 6px -1px inset, hsla(var(--r-black), 0.05) 0px 1px 10px -1px inset;
-  }
-
-  ;
+  };
 
 
   .themeBorder {
