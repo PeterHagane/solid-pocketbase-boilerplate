@@ -92,17 +92,10 @@ p {
   gap: 15px
 }
 
-.marginLeft {
-  margin-left: auto;
-}
 
-.marginLeft5 {
-  margin-left: 5px;
-}
 
-.flexGrow {
-  flex-grow: 1;
-}
+.noClick { pointer-events: none;}
+
 
 /* end flex */
 
@@ -120,6 +113,8 @@ Simple as. Defaults:
 input{
   --padding: 5px;
   --height: 26px;
+  transition: all 0.5s !important;
+  ~*{transition: all 0.2s !important;}
 
   all: unset;
   position: relative;
@@ -130,6 +125,11 @@ input{
   padding: var(--padding);
   padding-left: 7px;
   background-color: hsla(var(--r-primary), 0.05);
+
+  &:has()
+  /* &:not(:last-of-type){
+    margin-bottom: 10px;
+  } */
 
   &[data-validity]{
     &:invalid {
@@ -149,6 +149,7 @@ input{
 
   &:not([data-nolabel]){
     &:has(+ label){
+
       &::placeholder {
         opacity: 0;
       }
@@ -176,14 +177,17 @@ input{
       }
     }
   }  
-
+  
 
   &[data-editable]{
     background-color: unset;
     cursor: pointer;
+    padding-right: 36px;
+    width: calc(100% - (var(--padding) * 2) - 32px);
 
     &:not(:has(:focus)){
       &:has(+[data-edit]){
+        
         & +[data-edit] {
             height: 36px;
             max-height: 36px;
@@ -220,6 +224,8 @@ input{
       background-color: hsla(var(--r-primary), 0.1);
       cursor: auto;
       &:has(+[data-edit]){
+        padding-right: 36px;
+        width: calc(100% - (var(--padding) * 2) - 32px);
         & +[data-edit] {
             transition: opacity width 0.5s;
             width: 0px;
@@ -386,5 +392,47 @@ input:-webkit-autofill:active {
   &::-webkit-scrollbar-thumb:active {
     transition: 0.4s;
     background: hsla(var(--r-surface-400), 1);
+  }
+}
+
+
+
+
+.grid {
+  --grid-max-col-count: attr(max-col-count type(<number>), 3);
+  --grid-min-col-size: attr(min-col-size type(*), 20rem);
+  --grid-gap: 1rem;
+
+  /* calculations, do not touch */
+  --grid-col-size-calc: calc(
+    (100% - var(--grid-gap) * var(--grid-max-col-count)) /
+      var(--grid-max-col-count)
+  );
+  --grid-col-min-size-calc: min(
+    100%,
+    max(var(--grid-min-col-size), var(--grid-col-size-calc))
+  );
+
+  display: grid;
+  gap: var(--grid-gap);
+
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(var(--grid-col-min-size-calc), 1fr)
+  );
+
+  >*{height: calc(100% - var(--grid-gap));}
+
+
+  .gridCard {
+    --card-padding: 0.8rem;
+    --card-gaps: 0.5rem;
+
+    width: calc(100% - calc(var(--card-padding) * 2));
+    height: calc(100% - calc(var(--card-padding) * 2));
+
+    padding: var(--card-padding);
+    gap: var(--card-gaps);
+    background-color: hsl(var(--r-surface-100));
   }
 }

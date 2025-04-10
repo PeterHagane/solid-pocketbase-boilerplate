@@ -1,42 +1,85 @@
-import { uuid } from "../../utils/Utils"
+import { getElementById, uuid } from "../../utils/Utils"
 import cx from "classnames"
 import css from "./accountisverified.module.scss"
 import { userState } from "../stores/pocketBase";
-import { FiEdit3 } from "solid-icons/fi";
+import { FiSave } from "solid-icons/fi";
+import { createSignal } from "solid-js";
+import { InputAssistant } from "./inputassistant";
+
+type IAccountSettings = {
+    userName: string,
+    phone: string
+}
 
 export const AccountSettings =()=>{
     const ids = {
-        name: "name" + uuid(),
-        email: "email" + uuid(),
+        userName: "name" + uuid(),
         phone: "phone" + uuid(),
-        address: "address" + uuid(),
-        city: "city" + uuid(),
-        state: "state" + uuid(),
-        zip: "zip" + uuid(),
+    }
+
+    const initialSettings: IAccountSettings = {
+        userName: userState().user?.username,
+        phone:  userState().user?.username,
+    }
+
+    const [settings, setSettings] = createSignal<IAccountSettings>({...initialSettings})
+
+    const anyEdited =()=>{
+        let edited = false
+        for (const [key, value] of Object.entries(settings())) {
+            if(initialSettings[key as keyof IAccountSettings] !== value)edited = true
+        }      
+        return edited
+    }
+
+    const isEdited =(key: string)=>{
+        if(initialSettings[key as keyof IAccountSettings] !== settings()[key as keyof IAccountSettings])return true
+        return false
+    }
+
+    const resetValue = (key: string, id: string)=>{
+        setSettings((prev)=>{return {...prev,
+            [key]: initialSettings[key as keyof IAccountSettings]
+        }})
+        const input = getElementById(id) as HTMLInputElement
+        if(input)input.value = initialSettings[key as keyof IAccountSettings]
     }
 
     return (
-        <form class={cx("flex start center column gap-s form", css.card)}
+        <form class={cx("flex center start column gap-s form fullHeight", css.card)}
             onSubmit={(e) => { e.preventDefault() }}
+            onInput={(e)=>{
+                const t = e.target as HTMLInputElement
+                const setting: string = t.getAttribute("data-key")!
+                setSettings((prev)=>{return{...prev, [setting]: t.value}})
+            }}
         >
+            <input
+            data-editable  
+            id={ids.userName} 
+            type="text" 
+            placeholder={""}
+            data-key={"userName"}
+            value={initialSettings.userName}
+            >
+            </input>
+            <InputAssistant label labelId={ids.phone} labelValue={"Username"} edit reset={isEdited("userName")}
+                resetCallback={()=>resetValue("userName", ids.userName)}
+            />
+
+            <input
+            data-editable  
+            id={ids.phone} 
+            type="text" 
+            placeholder={""} 
+            data-key={"phone"}
+            value={initialSettings.phone}>
+            </input>
+            <InputAssistant label labelId={ids.phone} labelValue={"phone"} edit 
+            reset={isEdited("phone")} resetCallback={()=>resetValue("phone", ids.phone)}/>
             
-            <input data-editable id={ids.name} type="text" placeholder={""} value={userState().user?.username}></input>
-            <label data-translate for={ids.name}>{"Username"} </label>
-            <FiEdit3 data-edit size={22}/>
 
-            <input data-editable id={ids.name} type="text" placeholder={""} value={""}></input>
-            <label data-translate for={ids.name}>{"Username"} </label>
-            <FiEdit3 data-edit size={22}/>
-
-            <input data-editable id={ids.name} type="text" placeholder={""} value={""}></input>
-            <label data-translate for={ids.name}>{"Username"} </label>
-            <FiEdit3 data-edit size={22}/>
-
-            <input data-editable id={ids.name} type="text" placeholder={""} value={""}></input>
-            <label data-translate for={ids.name}>{"Username"} </label>
-            <FiEdit3 data-edit size={22}/>
-           
-            <button data-translate type="submit">Save</button>
+            <button disabled={!anyEdited()} class={cx("flex center gap marginTop")} data-translate type="submit">Save<FiSave></FiSave></button>
     </form>
     )
 }

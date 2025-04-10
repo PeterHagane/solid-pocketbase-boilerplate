@@ -32,6 +32,36 @@ body {
     width: 100%;
 }
 
+.fullHeight{
+    height: 100%;
+  }
+
+
+.marginRight {
+  margin-right: auto;
+}
+
+.marginLeft {
+  margin-left: auto;
+}
+
+.marginTop {
+  margin-top: auto;
+}
+
+.marginBottom {
+  margin-bottom: auto;
+}
+
+.marginLeft5 {
+  margin-left: 5px;
+}
+
+.flexGrow {
+  flex-grow: 1;
+}
+  
+
 
 body {
     min-height: 100dvh;
@@ -39,6 +69,11 @@ body {
     overflow-y: auto;
 }
 
+.pagePadding{
+    --contentWidth: attr(content-width type(*), 80ch);
+    --padding: 0.2rem; 
+    padding: var(--padding) max(var(--padding), 50vw - var(--contentWidth) / 2);
+}
 
 #root {
     --border-color: hsla(var(--r-primary), 0.2);

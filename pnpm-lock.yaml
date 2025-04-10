@@ -9,7 +9,7 @@ importers:
   .:
     dependencies:
       '@corvu/resizable':
-        specifier: ^0.2.3
+        specifier: ^0.2.4
         version: 0.2.4(solid-js@1.9.5)
       '@kobalte/core':
         specifier: ^0.13.7

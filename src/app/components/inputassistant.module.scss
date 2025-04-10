@@ -1,0 +1,13 @@
+.resetButton{
+    min-height: 0px;
+    padding: 5px;
+    margin-top: -37px;
+    margin-left: calc(100% - 31px);
+    margin-bottom: 6px;
+
+    //button isn't clickable in dark mode without upping the z-index
+    //and I have no idea why
+    [data-theme="Dark"] & {
+        z-index: 1;
+    }
+}
