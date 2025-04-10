@@ -26,7 +26,6 @@ export const Profile: Component = () => {
                     {!userState().isAdmin && <FaRegularChessPawn class={"marginLeft5"} color="hsla(var(--r-primary), 0.7)" />}
                 </span></h3>}
             </div>
-            {/* <div class={css.sectionContainer}> */}
             <section class={cx("grid center pagePadding", css.section)} max-col-count={2} min-col-size={"20rem"}>
                 <div class={cx("flex column shadow rounding gridCard")}>
                 <h2 data-translate>Account status</h2>
@@ -40,28 +39,7 @@ export const Profile: Component = () => {
                     <h2 data-translate>Summary</h2>
                     <AccountSettings></AccountSettings>
                 </div>
-                <div class={cx("flex column shadow rounding gridCard")}>
-                    <h2 data-translate>Summary</h2>
-                    <AccountSettings></AccountSettings>
-                </div>
-                <div class={cx("flex column shadow rounding gridCard")}>
-                    <h2 data-translate>Summary</h2>
-                    <AccountSettings></AccountSettings>
-                </div>
-                <div class={cx("flex column shadow rounding gridCard")}>
-                    <h2 data-translate>Summary</h2>
-                    <AccountSettings></AccountSettings>
-                </div>
-                <div class={cx("flex column shadow rounding gridCard")}>
-                    <h2 data-translate>Summary</h2>
-                    <AccountSettings></AccountSettings>
-                </div>
-                <div class={cx("flex column shadow rounding gridCard")}>
-                    <h2 data-translate>Summary</h2>
-                    <AccountSettings></AccountSettings>
-                </div>
                 </section>
-                {/* </div> */}
         </div>
 
     )

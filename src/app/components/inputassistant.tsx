@@ -19,12 +19,14 @@ export const InputAssistant = (props: Partial<IInputAssistant>) =>{
         {props.label && <label data-translate for={props.labelId}>{props.labelValue}</label>}
         {props.edit && <FiEdit3 data-edit size={22}/>}
         {props.reset && <button data-reset 
-            class={cx("flex center", css.resetButton)}onClick={(e)=>{
-            changeStyle(e.target as HTMLElement, "bounceSVG", 200)
-            changeStyle(e.target as HTMLElement, "fadeOut", 400)
-            if(props.resetCallback)delayStateChange(()=>props.resetCallback!(), 200)
-            }
-        }>
+            class={cx("flex center", css.resetButton)}
+            onMouseDown={(e)=>{ //use onMouseDown instead of onClick to prevent focusing button
+                e.preventDefault()
+                changeStyle(e.target as HTMLElement, "bounceSVG", 200)
+                changeStyle(e.target as HTMLElement, "fadeOut", 400)
+                if(props.resetCallback)delayStateChange(()=>props.resetCallback!(), 200)
+            }}
+        >
             <FiTrash class="noClick" />
         </button>}
     </>

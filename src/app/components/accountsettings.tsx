@@ -45,6 +45,11 @@ export const AccountSettings =()=>{
         if(input)input.value = initialSettings[key as keyof IAccountSettings]
     }
 
+    const focusById =(id: string)=>{
+        const i = getElementById(id)
+        if(i && i.focus)i.focus()
+    }
+
     return (
         <form class={cx("flex center start column gap-s form fullHeight", css.card)}
             onSubmit={(e) => { e.preventDefault() }}
@@ -63,8 +68,13 @@ export const AccountSettings =()=>{
             value={initialSettings.userName}
             >
             </input>
-            <InputAssistant label labelId={ids.phone} labelValue={"Username"} edit reset={isEdited("userName")}
-                resetCallback={()=>resetValue("userName", ids.userName)}
+            <InputAssistant label labelId={ids.userName} labelValue={"Username"} edit reset={isEdited("userName")}
+                resetCallback={
+                    ()=>{
+                        resetValue("userName", ids.userName)
+                        focusById(ids.userName) //autofocus when clicking this input's bin
+                    }
+                }
             />
 
             <input
@@ -76,7 +86,12 @@ export const AccountSettings =()=>{
             value={initialSettings.phone}>
             </input>
             <InputAssistant label labelId={ids.phone} labelValue={"phone"} edit 
-            reset={isEdited("phone")} resetCallback={()=>resetValue("phone", ids.phone)}/>
+            reset={isEdited("phone")} resetCallback={
+                ()=>{
+                    resetValue("phone", ids.phone)
+                    focusById(ids.phone) //autofocus when clicking this input's bin
+                }
+            }/>
             
 
             <button disabled={!anyEdited()} class={cx("flex center gap marginTop")} data-translate type="submit">Save<FiSave></FiSave></button>
