@@ -1,4 +1,4 @@
-import { createSignal, from } from "solid-js";
+import { createSignal } from "solid-js";
 import gb from "../locales/gb.json"
 import no from "../locales/no.json"
 import fr from "../locales/fr.json"

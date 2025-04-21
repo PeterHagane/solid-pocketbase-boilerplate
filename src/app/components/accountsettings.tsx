@@ -1,10 +1,11 @@
-import { getElementById, uuid } from "../../utils/Utils"
+import { focusById, getElementById, uuid } from "../../utils/Utils"
 import cx from "classnames"
 import css from "./accountisverified.module.scss"
 import { userState } from "../stores/pocketBase";
 import { FiSave } from "solid-icons/fi";
 import { createSignal } from "solid-js";
 import { InputAssistant } from "./inputassistant";
+
 
 type IAccountSettings = {
     userName: string,
@@ -44,12 +45,6 @@ export const AccountSettings =()=>{
         const input = getElementById(id) as HTMLInputElement
         if(input)input.value = initialSettings[key as keyof IAccountSettings]
     }
-
-    const focusById =(id: string)=>{
-        const i = getElementById(id)
-        if(i && i.focus)i.focus()
-    }
-
     return (
         <form class={cx("flex center start column gap-s form fullHeight", css.card)}
             onSubmit={(e) => { e.preventDefault() }}

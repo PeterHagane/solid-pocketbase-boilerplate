@@ -1,5 +1,6 @@
 //misc utils
 import { notify } from "../app/components/notify"
+import { t } from "../app/stores/translationStore"
 
 export const getDimensionsOfElementById = (id: string) => {
   const e = document.getElementById(id)
@@ -137,6 +138,10 @@ export function getKeyByValue<T>(obj: Record<string, T>, value: T): string | und
   return undefined; // Return undefined if no match is found
 }
 
+export const getKeyByKey =(object: object, key: string)=>{
+  const foundkey = Object.keys(object).find(k => k === key);
+  return foundkey
+}
 
 export const uuid = (): string => {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
@@ -173,4 +178,20 @@ export const isValidEmailInput = (address: string, ref?: HTMLInputElement): bool
       ref.setCustomValidity("Invalid email format.")
       return false}
   return false
+}
+
+export const setInputValidity = (isValid: boolean, ref?: HTMLInputElement): boolean =>{
+  if(isValid && ref){
+      ref.setCustomValidity("")
+      return true
+  }
+  if(!isValid && ref){
+      ref.setCustomValidity(`${t("Invalid email format")}.`)
+      return false}
+  return false
+}
+
+export const focusById =(id: string)=>{
+  const i = getElementById(id)
+  if(i && i.focus)i.focus()
 }

@@ -10,6 +10,7 @@ import Layout from "./components/layout/_layout"
 import { getLocalStorageTheme, saveTheme } from "./stores/themesStore"
 import Profile from "./pages/profile"
 import { useScreenSize } from "./stores/settingsStore"
+import NotFound from "./pages/404"
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
         <Route path="/profile" component={() => <ProtectedRoute><Profile /></ProtectedRoute>} />
         <Route path="/playground" component={() => <ProtectedRoute><Playground /></ProtectedRoute>} />
         <Route path="/admin" component={() => <ProtectedRoute><Admin /></ProtectedRoute>} />
+        <Route path="*404" component={()=><NotFound/>} />
       </Router>
       {/* {process.env.APP_IS_DEV === "true" && "asdasdasd"} */}
 

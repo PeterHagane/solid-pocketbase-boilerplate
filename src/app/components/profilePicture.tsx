@@ -1,13 +1,16 @@
 import { FiUserCheck, FiUserX } from "solid-icons/fi";
 import css from "./profilePicture.module.scss";
 import cx from "classnames"
+import { FaRegularChessKing } from "solid-icons/fa";
+import { userState } from "../stores/pocketBase";
 
 export const ProfilePicture = (props: { isLoggedIn: boolean }) => {
 
 
     return (
         <span class={cx(css.profilePicture)}>
-            {props.isLoggedIn && <FiUserCheck color="hsla(var(--r-good), 1)" size={20} />}
+            {userState().isAdmin && <FaRegularChessKing color="hsla(var(--r-good), 1)" />}
+            {!userState().isAdmin && props.isLoggedIn && <FiUserCheck color="hsla(var(--r-primary), 1)" size={20} />}
             {!props.isLoggedIn && <FiUserX size={20} />}
         </span>
 

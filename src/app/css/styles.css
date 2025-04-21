@@ -92,13 +92,14 @@ p {
   gap: 15px
 }
 
-
+/* end flex */
 
 .noClick { pointer-events: none;}
 
-
-/* end flex */
-
+[opacity-value]{
+    --opacity: attr(opacity-value type(<number>), 1);
+    opacity: var(--opacity);
+}
 
 /* MAGIC INPUT
 USAGE:
@@ -126,8 +127,8 @@ input{
   padding-left: 7px;
   background-color: hsla(var(--r-primary), 0.05);
 
-  &:has()
-  /* &:not(:last-of-type){
+  /* &:has()
+   &:not(:last-of-type){
     margin-bottom: 10px;
   } */
 
@@ -136,12 +137,13 @@ input{
       border: 1px solid hsla(var(--r-error), 0.5);
       color: hsla(var(--r-text-primary), 1);
     }
-
+  
     &:valid {
       border: 1px solid hsla(var(--r-good), 0.5);
       color: hsla(var(--r-text-primary), 1);
     }
   }
+
 
   &:focus {
     background-color: hsla(var(--r-primary), 0.1);
@@ -435,4 +437,8 @@ input:-webkit-autofill:active {
     gap: var(--card-gaps);
     background-color: hsl(var(--r-surface-100));
   }
+}
+
+.margin0auto {
+  margin: 0 auto;
 }

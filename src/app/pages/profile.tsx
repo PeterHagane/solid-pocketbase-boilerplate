@@ -1,12 +1,13 @@
 import { Component} from "solid-js";
-import { AccountEmailChange } from "../components/accountemailchange";
-import { AccountSettings } from "../components/accountSettings";
+import { AccountSettings } from "../components/accountsettings";
 import { T } from "../components/translate";
 import { userState } from "../stores/pocketBase";
 import css from "./profile.module.scss"
 import cx from "classnames"
 import { FaRegularChessKing, FaRegularChessPawn } from 'solid-icons/fa'
 import { t } from "../stores/translationStore";
+import { AccountEmailChange } from "../components/accountemailchange";
+
 
 
 export const Profile: Component = () => {
@@ -27,7 +28,7 @@ export const Profile: Component = () => {
             <section class={cx("grid center pagePadding", css.section)} max-col-count={2} min-col-size={"20rem"}>
                 <div class={cx("flex column shadow rounding gridCard")}>
                     <h2 data-translate>Account status</h2>
-                    <p><T>Email</T>: {userState().email === "" ? t("No email registered.") : userState().email}</p>
+                    <p><T>Email</T>: {userState().user?.email === "" ? t("No email registered.") : userState().user?.email}</p>
                     {userState().isAdmin && <p class={"flex row center"}><T>Admin</T>: {userState().isAdmin ? <>Yes <FaRegularChessKing class={"marginLeft5"} color="hsla(var(--r-good), 1)" /></> : "No"}</p>}
                     <div class="flexGrow" />
                     <AccountEmailChange></AccountEmailChange>
@@ -43,4 +44,3 @@ export const Profile: Component = () => {
 }
 
 export default Profile;
-

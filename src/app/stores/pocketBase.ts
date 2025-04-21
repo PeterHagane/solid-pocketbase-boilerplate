@@ -1,74 +1,54 @@
 import PocketBase from 'pocketbase';
-// import { TypedPocketBase } from "./pocketbase-types"
-
 import { notify } from '../components/notify';
 import { createSignal } from 'solid-js';
 import { ILoginForm } from '../components/loginForm';
 import { t } from './translationStore';
+import { PocketSession } from './pocektBaseTypes';
 
 const url = 'https://haproco.pockethost.io/'
 export const pb = new PocketBase(url)
 
-type PocketError = {
-    response: PocketResponse
-}
-
-type PocketResponse = {
-    code: number
-    message: string
-    data: {
-        username: {
-            code: string
-            message: string
-        }
-    }
-
-}
-
-
-export type PocketSession = {
-    registerUser: ({ username, password }: ILoginForm) => Promise<boolean | void>
-    signIn: ({ username, password }: ILoginForm) => Promise<boolean | void>
-    signOut: () => void
-    adminSignIn: ({ username, password }: ILoginForm) => Promise<boolean | void>
-    user: {
-        [key: string]: any;
-    } | null
-    email: string,
-    pb: PocketBase
-    isLoading: boolean
-    isPendingChange: boolean
-    isError: PocketError | undefined
-    isSignedIn: boolean
-    isAdmin: boolean
-    userToken: string | null
-}
-
-const getIsAdmin = async (userId?: string) => {
-    if (!userId) return false
-    try {
-        const record = await pb.collection('sysAdmins').getFirstListItem(`userId = "${userId}"`)
-        if (record.isAdmin) return true
-        if (!record || !record.isAdmin) return false
-    } catch (error) {
-        return false
-    }
-}
-
-
 export const [userState, setUserState] = createSignal<Partial<PocketSession>>({
     user: pb.authStore.record,
-    email: pb.authStore.record?.email,
+    // email: pb.authStore.record?.email,
     userToken: pb.authStore.token,
     isLoading: false,
     isPendingChange: false,
     isError: undefined,
     isSignedIn: pb.authStore.isValid,
-    isAdmin: await getIsAdmin(pb.authStore.record?.id) || false,
+    isAdmin: false,
     pb: pb
 })
 
+pb.authStore.onChange((token, model) => {
+        //trigger on authStore change
+        setUserState((prev)=>{
+            return {
+                ...prev,
+                user: model, //AKA pb.authStore.record
+                userToken: token,
+                isLoading: false,
+                isPendingChange: false,
+                isError: undefined,
+                isSignedIn: pb.authStore.isValid,
+                isAdmin: false,
+                pb: pb
+            }
+        }
+    )
+}, true);
 
+export const setIsAdmin = async (userId?: string) => {
+    if (!userId) return false
+    return await pb.collection('sysAdmins').getFirstListItem(`user.id = "${userId}"`).then(
+        ()=>{
+            setUserState((prev)=>{return {...prev, isAdmin: true}})
+        }
+    ).catch((e)=>{
+        setUserState((prev)=>{return {...prev, isAdmin: false}})
+        return e
+    })
+}
 
 export const registerUser = async ({ username, password }: ILoginForm) => {
     setUserState({
@@ -116,15 +96,13 @@ export const signIn = async ({ username, password }: ILoginForm) => {
         .collection("users")
         .authWithPassword(username, password)
         .then(async (a) => {
-            const isAdmin = await getIsAdmin(pb.authStore.record?.id)
+            setIsAdmin(a.record.id)
             setUserState({
                 ...userState(),
                 user: a.record,
-                email: a.record.email,
                 isLoading: false,
                 isError: undefined,
                 isSignedIn: true,
-                isAdmin: isAdmin,
                 pb: pb,
                 userToken: pb.authStore.token
             })
@@ -164,18 +142,20 @@ export const sendEmailChangeRequest = async (email: string) => {
         isError: undefined,
     })
     return await pb.collection('users').requestEmailChange(email)
-    .then(()=>{
+    .then((r)=>{
         setUserState({
             ...userState(),
+            isPendingChange: true,
             isLoading: false,
         })
         notify({ title: t("Success"), color: "hsla(var(--r-good), 1)", duration: 6000 })
-        return true
+        return r
     }).catch(
         (e)=>{
             setUserState({
                 ...userState(),
                 isLoading: false,
+                isPendingChange: false,
                 isError: e,
             })
             notify({
@@ -184,9 +164,9 @@ export const sendEmailChangeRequest = async (email: string) => {
                 message: t(e.response.data?.newEmail?.message ? e.response.data.newEmail.message : e.response.message ? e.response.message : ""),
                 duration: 6000,
                 dismissible: true })
-            return false
+        return false
         }
-    );
+    )
 }
 
 export const sendVerificationRequest = async (email: string) => {
@@ -263,17 +243,14 @@ export const subscribeAndCallback = async (collection: string, id: string, callb
     })
 }
 
-export const subAndUnsubOnUserChange = async(callback?: ()=>void) =>{
-    // const f = () =>{ return console.log("from function!")}
-    // const unsub = await subscribe("users", pb.authStore.record?.id || "", callback)
-    // "users", pb.authStore.record?.id || ""
-    
+export const subscribeUserChange = async(callback?: ()=>void) =>{
     const unsub = await pb.collection("users").subscribe(pb.authStore.record?.id || "", (e)=> {
         if(e.action === "update") { 
-            unsub()
+            // unsub()
             if(callback)callback()
         }
     })
+    return unsub
 }
 
 export const authRefresh = async(successMsg?: string, errorMsg?: string)=>{
@@ -283,6 +260,7 @@ export const authRefresh = async(successMsg?: string, errorMsg?: string)=>{
         isLoading: false,
         isError: undefined,
     })
+
     return await pb.collection('users').authRefresh().then(
         (a)=>{
             setUserState({
@@ -296,7 +274,8 @@ export const authRefresh = async(successMsg?: string, errorMsg?: string)=>{
                 pb: pb,
                 userToken: pb.authStore.token
             })
-         notify({ title: t(successMsg || "Success"), color: "hsla(var(--r-good), 1)", duration: 6000 })
+         successMsg && notify({ title: t(successMsg || "Success"), color: "hsla(var(--r-good), 1)", duration: 6000 })
+         return a
         }
     ).catch(
         (e)=>{
@@ -313,6 +292,8 @@ export const authRefresh = async(successMsg?: string, errorMsg?: string)=>{
                 message: t(e.response.data?.newEmail?.message ? e.response.data.newEmail.message : e.response.message ? e.response.message : ""),
                 duration: 6000,
                 dismissible: true })
+
+            return e
         }
     )
 

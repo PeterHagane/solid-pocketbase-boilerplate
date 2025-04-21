@@ -54,15 +54,15 @@ html[data-theme="Dark"] {
   --r-black: var(--black);
   --r-white: var(--white);
 
-  --r-surface-100: var(--color-dark-100);
-  --r-surface-200: var(--color-dark-200);
-  --r-surface-300: var(--color-dark-300);
-  --r-surface-400: var(--color-dark-400);
-  --r-surface-500: var(--color-dark-500);
+  --r-surface-100: var(--color-dark-200);
+  --r-surface-200: var(--color-dark-300);
+  --r-surface-300: var(--color-dark-400);
+  --r-surface-400: var(--color-dark-500);
+  --r-surface-500: var(--color-dark-600);
 
-  --r-surface-back: var(--color-dark-100);
-  --r-surface-mid: var(--color-dark-200);
-  --r-surface-front: var(--color-dark-300);
+  --r-surface-back: var(--color-dark-200);
+  --r-surface-mid: var(--color-dark-300);
+  --r-surface-front: var(--color-dark-400);
   --r-surface-contrast: var(--color-light-200);
 
   --r-primary: var(--color-primary-strong);
