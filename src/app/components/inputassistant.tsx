@@ -1,4 +1,4 @@
-import { FiEdit3, FiTrash } from "solid-icons/fi"
+import { FiEdit3 } from "solid-icons/fi"
 import { changeStyle, delayStateChange } from "../../utils/Utils"
 import css from "./inputassistant.module.scss"
 import cx from "classnames"

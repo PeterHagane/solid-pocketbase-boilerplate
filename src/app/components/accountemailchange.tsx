@@ -1,11 +1,11 @@
 import { TbMailCheck, TbMailExclamation, TbMailQuestion } from 'solid-icons/tb'
 import { RiBusinessMailSendLine } from 'solid-icons/ri'
-import { authRefresh, sendEmailChangeRequest, setUserState, subscribeUserChange, userState } from "../stores/pocketBase";
+import { authRefresh, sendEmailChangeRequest, subscribeUserChange, userState } from "../stores/pocketBase";
 import { T } from "./translate";
 import cx from "classnames"
 import css from "./accountisverified.module.scss"
 import { createSignal } from 'solid-js';
-import { changeStyle, delay, delayStateChange, setInputValidity, uuid } from '../../utils/Utils';
+import { changeStyle, setInputValidity, uuid } from '../../utils/Utils';
 import Loader from './loader';
 import { type } from "arktype"
 import { UnsubscribeFunc } from 'pocketbase';
