@@ -35,6 +35,7 @@ export const Input: Component<IInputProps> = (
             is-edited={isEdited()}
             has-value={hasValue()}
             has-validity={props.validity}
+            has-focus={hasFocus()}
 
             class={cx(css.inputContainer)}>
             

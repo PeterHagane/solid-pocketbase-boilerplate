@@ -1,10 +1,9 @@
-import { focusById, getElementById, uuid } from "../../utils/Utils"
+import { getElementById, uuid } from "../../utils/Utils"
 import cx from "classnames"
 import css from "./accountisverified.module.scss"
 import { userState } from "../stores/pocketBase";
 import { FiSave } from "solid-icons/fi";
 import { createSignal } from "solid-js";
-import { InputAssistant } from "./inputassistant";
 import { Input } from "./input";
 import { t } from "../stores/translationStore";
 

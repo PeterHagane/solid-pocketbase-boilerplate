@@ -104,5 +104,14 @@
       bottom: 3px;
       min-height: 0px;
       padding: 7px;
+      pointer-events: none;
+    }
+
+    &[has-focus=true]{
+      &[is-edited=true]{
+        >button{
+          pointer-events: auto;
+        }
+      }
     }
   }
