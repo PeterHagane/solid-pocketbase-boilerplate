@@ -65,9 +65,22 @@
       }
     }
 
+    >button{
+      position: absolute;
+      right: 5px;
+      bottom: 7px;
+      min-height: 0px;
+      padding: 4px;
+      pointer-events: none;
+    }
+
     &[is-edited=true]{
         >input{
           background-color: hsla(var(--r-primary), 0.1);
+        }
+
+        >button{
+          pointer-events: auto;
         }
     }
 
@@ -94,23 +107,6 @@
         &:focus {
           background-color: hsla(var(--r-primary), 0.1);
           cursor: auto;
-        }
-      }
-    }
-
-    >button{
-      position: absolute;
-      right: 2px;
-      bottom: 3px;
-      min-height: 0px;
-      padding: 7px;
-      pointer-events: none;
-    }
-
-    &[has-focus=true]{
-      &[is-edited=true]{
-        >button{
-          pointer-events: auto;
         }
       }
     }

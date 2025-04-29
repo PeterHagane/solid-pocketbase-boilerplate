@@ -72,12 +72,8 @@ export const Input: Component<IInputProps> = (
                     props.resetCallback!()
                     const input = getElementById(id) as HTMLInputElement
                     if(input){
-                        input.value = props.initialValue?.toString() || ""
                         input.focus()
-                        delayStateChange(()=>{
-                            setIsEdited(false)
-                            setHasValue(!!input.value)
-                        }, 200)
+                        input.dispatchEvent(new Event("input", { bubbles: true }))
                     }
                 }}
                 >
