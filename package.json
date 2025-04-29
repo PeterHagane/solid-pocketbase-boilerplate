@@ -13,6 +13,10 @@
     "typegen": "npx typed-pocketbase -d src/types -f auth,posts"
   },
   "dependencies": {
+    "@capacitor/android": "^7.2.0",
+    "@capacitor/cli": "^7.2.0",
+    "@capacitor/core": "^7.2.0",
+    "@capacitor/ios": "^7.2.0",
     "@corvu/resizable": "^0.2.4",
     "@kobalte/core": "^0.13.7",
     "@solid-primitives/autofocus": "^0.0.111",
