@@ -111,7 +111,7 @@ Simple as. Defaults:
 - Add data-validity to change border colors on valid/invalid input.
 - if it's data-editable it'll look different and grab the first data-edit element underneath it
 */
-input{
+.input{
   --padding: 5px;
   --height: 26px;
   transition: all 0.5s !important;
@@ -127,10 +127,6 @@ input{
   padding-left: 7px;
   background-color: hsla(var(--r-primary), 0.05);
 
-  /* &:has()
-   &:not(:last-of-type){
-    margin-bottom: 10px;
-  } */
 
   &[data-validity]{
     &:invalid {

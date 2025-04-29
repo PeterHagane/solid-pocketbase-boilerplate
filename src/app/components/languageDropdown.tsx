@@ -6,6 +6,7 @@ import { changeStyle } from "../../utils/Utils";
 export const LanguageDropdown = (props: { class?: string }) => {
     return <div class={props.class}>
         <DropdownMenu
+            closeOnSelect
             triggerId="dropdownLanguageSpan"
             trigger={
                 <span class={`flex row center`} id="dropdownLanguageSpan">

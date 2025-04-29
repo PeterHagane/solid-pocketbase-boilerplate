@@ -6,12 +6,12 @@ import css from './dropdown.module.scss';
 import { changeStyle, changeStyleById, delayStateChange } from '../../utils/Utils';
 
 export const DropdownMenu = (
-	_props: { children?: JSX.Element | JSX.Element[]; class?: string; trigger?: JSX.Element; triggerId?: string }
+	_props: { children?: JSX.Element | JSX.Element[]; class?: string; trigger?: JSX.Element; triggerId?: string, closeOnSelect?: boolean }
 ) => {
 	const [open, setOpen] = createSignal(false);
 
 	const c = children(() => _props.children).toArray() as JSX.Element[]
-	const props = Object.assign({ children: c }, _props)
+	const props = Object.assign({ children: c, closeOnSelect: false }, _props)
 
 	return (
 		<KDropdownMenu
@@ -42,7 +42,7 @@ export const DropdownMenu = (
 				>
 					{props.children.map((c, index) => {
 						return (
-							<KDropdownMenu.Item closeOnSelect={false} style={`--i: ${index + 1}`}>
+							<KDropdownMenu.Item closeOnSelect={props.closeOnSelect} style={`--i: ${index + 1}`}>
 								{c}
 							</KDropdownMenu.Item>
 						);

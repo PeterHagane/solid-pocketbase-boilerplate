@@ -9,6 +9,8 @@ import { changeStyle, setInputValidity, uuid } from '../../utils/Utils';
 import Loader from './loader';
 import { type } from "arktype"
 import { UnsubscribeFunc } from 'pocketbase';
+import { Input } from './input';
+import { t } from '../stores/translationStore';
 
 const checkEmailValidity = type({
      address: "string.email"
@@ -68,7 +70,19 @@ export const AccountEmailChange = () => {
                     }}
 
                     class="form flex column gap-s">
-                        <input
+                        <Input 
+                            ref={emailRef}
+                            initialValue={""}
+                            id={emailId} 
+                            validity
+                            required
+                            type="email"
+                            label={t("Email")}
+                            data-key={"address"}
+                            ></Input>
+
+                        {/* <input
+                            class={cx("input")}
                             ref={emailRef}
                             type="email"
                             id={emailId}
@@ -76,8 +90,8 @@ export const AccountEmailChange = () => {
                             required
                             data-key={"address"}
                             data-validity
-                        />
-                        <label for={emailId} data-translate>Email</label>
+                        /> */}
+                        {/* <label for={emailId} data-translate>Email</label> */}
                     <button
                         class="flex row center gap"
                         type="submit"

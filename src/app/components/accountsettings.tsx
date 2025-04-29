@@ -5,6 +5,8 @@ import { userState } from "../stores/pocketBase";
 import { FiSave } from "solid-icons/fi";
 import { createSignal } from "solid-js";
 import { InputAssistant } from "./inputassistant";
+import { Input } from "./input";
+import { t } from "../stores/translationStore";
 
 
 type IAccountSettings = {
@@ -33,10 +35,10 @@ export const AccountSettings =()=>{
         return edited
     }
 
-    const isEdited =(key: string)=>{
-        if(initialSettings[key as keyof IAccountSettings] !== settings()[key as keyof IAccountSettings])return true
-        return false
-    }
+    // const isEdited =(key: string)=>{
+    //     if(initialSettings[key as keyof IAccountSettings] !== settings()[key as keyof IAccountSettings])return true
+    //     return false
+    // }
 
     const resetValue = (key: string, id: string)=>{
         setSettings((prev)=>{return {...prev,
@@ -45,6 +47,9 @@ export const AccountSettings =()=>{
         const input = getElementById(id) as HTMLInputElement
         if(input)input.value = initialSettings[key as keyof IAccountSettings]
     }
+
+
+
     return (
         <form class={cx("flex center start column gap-s form fullHeight", css.card)}
             onSubmit={(e) => { e.preventDefault() }}
@@ -54,40 +59,16 @@ export const AccountSettings =()=>{
                 setSettings((prev)=>{return{...prev, [setting]: t.value}})
             }}
         >
-            <input
-            data-editable  
-            id={ids.userName} 
-            type="text" 
-            placeholder={""}
-            data-key={"userName"}
-            value={initialSettings.userName}
-            >
-            </input>
-            <InputAssistant label labelId={ids.userName} labelValue={"Username"} edit reset={isEdited("userName")}
-                resetCallback={
-                    ()=>{
-                        resetValue("userName", ids.userName)
-                        focusById(ids.userName) //autofocus when clicking this input's bin
-                    }
-                }
-            />
 
-            <input
-            data-editable  
-            id={ids.phone} 
-            type="text" 
-            placeholder={""} 
-            data-key={"phone"}
-            value={initialSettings.phone}>
-            </input>
-            <InputAssistant label labelId={ids.phone} labelValue={"phone"} edit 
-            reset={isEdited("phone")} resetCallback={
-                ()=>{
-                    resetValue("phone", ids.phone)
-                    focusById(ids.phone) //autofocus when clicking this input's bin
-                }
-            }/>
-            
+        <Input 
+            initialValue={initialSettings.userName}
+            id={ids.userName} 
+            edit
+            label={t("Username")}
+            data-key="userName"
+            resetCallback={()=>{
+                resetValue("userName", ids.userName)
+            }}></Input>
 
             <button disabled={!anyEdited()} class={cx("flex center gap marginTop")} data-translate type="submit">Save<FiSave></FiSave></button>
     </form>

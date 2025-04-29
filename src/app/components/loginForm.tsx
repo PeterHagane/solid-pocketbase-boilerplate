@@ -59,7 +59,7 @@ const LoginForm = (_props: ILoginFormProps) => {
                 setFields({ ...fields(), username: e.target.value })
             }}
                 ref={usernameRef}
-                class={"indentShadow"}
+                class={"indentShadow input"}
                 type="username"
                 id={loginIds.userName}
                 placeholder="username or email"
@@ -74,7 +74,7 @@ const LoginForm = (_props: ILoginFormProps) => {
                 setFields({ ...fields(), password: e.target.value })
             }}
                 ref={passwordRef}
-                class={"indentShadow flex center"} 
+                class={"indentShadow input"} 
                 type="password"
                 id={loginIds.password}
                 placeholder="password"

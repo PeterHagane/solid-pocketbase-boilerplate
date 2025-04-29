@@ -1,0 +1,108 @@
+.inputContainer{
+    --padding: 5px;
+    --height: 26px;
+
+    position: relative;
+    width: 100%;
+    display: flex;
+
+    >*{
+      transition: all 0.3s;
+    }
+
+    >input{
+      all: unset;
+      // width: calc(100% - (var(--padding) * 2) - 2px);
+      width: 100%;
+      border-radius: 5px;
+      transition: 0.1s;
+      height: var(--height);
+      padding: var(--padding);
+      padding-left: calc(var(--padding) + 2px);
+      padding-right: 36px;
+      background-color: hsla(var(--r-primary), 0.05);
+
+      &:focus {
+        background-color: hsla(var(--r-primary), 0.1);
+      }
+    }
+
+    &[has-validity=true]{
+      >input{
+        &:invalid {
+          border: 1px solid hsla(var(--r-error), 0.5);
+          color: hsla(var(--r-text-primary), 1);
+        }
+  
+        &:valid {
+          border: 1px solid hsla(var(--r-good), 0.5);
+          color: hsla(var(--r-text-primary), 1);
+        }
+      }
+    }
+
+    &[has-label=true]{
+      >label{
+        position: absolute;
+        top: 7px;
+        left: 0;
+        margin-left: 7px;
+        pointer-events: none;
+        color: hsla(var(--r-text-primary), 0.5);
+      }
+
+      &[has-value=true]{
+        >input{
+          padding-top: 15px;
+        }
+  
+        >label{
+          top: 0px;
+          margin-left: 3px;
+          color: hsla(var(--r-text-primary), 0.7);
+          font-size: smaller;
+        }
+      }
+    }
+
+    &[is-edited=true]{
+        >input{
+          background-color: hsla(var(--r-primary), 0.1);
+        }
+    }
+
+    [edit-icon=true]{
+      position: absolute;
+      right: var(--padding);
+      bottom: calc(var(--padding) + 2px);
+      color: hsla(var(--r-primary), 0.5);
+      pointer-events: none;
+    }
+
+    &:hover{
+      [edit-icon=true]{
+          color: hsla(var(--r-primary), 1)
+      }
+    }
+
+
+    &[has-edit=true]{
+      >input{
+        background-color: hsla(var(--r-primary), 0);
+        cursor: pointer;
+
+        &:focus {
+          background-color: hsla(var(--r-primary), 0.1);
+          cursor: auto;
+        }
+      }
+    }
+
+    >button{
+      position: absolute;
+      right: 2px;
+      bottom: 3px;
+      min-height: 0px;
+      padding: 7px;
+    }
+  }

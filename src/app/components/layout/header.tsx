@@ -40,6 +40,7 @@ export const Header = (_props: any) => {
         <LanguageDropdown class={css.flexEnd} />
 
         <DropdownMenu
+            closeOnSelect
             triggerId="dropdownThemeSpan"
             trigger={
                 <span class="flex row center" id="dropdownThemeSpan">
@@ -66,6 +67,7 @@ export const Header = (_props: any) => {
         </DropdownMenu>
 
         <DropdownMenu
+            closeOnSelect
             triggerId="dropdownUserSpan"
             trigger={
                 <span class="flex row center gap" id="dropdownUserSpan">

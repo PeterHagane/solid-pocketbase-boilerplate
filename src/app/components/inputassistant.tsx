@@ -4,6 +4,30 @@ import css from "./inputassistant.module.scss"
 import cx from "classnames"
 import { TiBackspaceOutline } from 'solid-icons/ti'
 import { createSignal } from "solid-js"
+
+//only use this with a plain input.
+//try to use Input component instead
+//example usage
+{/* 
+<input
+class="input"
+data-editable  
+id={ids.phone} 
+type="text" 
+placeholder={""} 
+data-key={"phone"}
+value={initialSettings.phone}>
+</input>
+<InputAssistant label labelId={ids.phone} labelValue={"phone"} edit 
+reset={isEdited("phone")} resetCallback={
+    ()=>{
+        resetValue("phone", ids.phone)
+        focusById(ids.phone) //autofocus when clicking this input's reset button
+    }
+}/> 
+*/}
+            
+
 interface IInputAssistant {
     "data-edit": string,
     "data-refresh":  string,
