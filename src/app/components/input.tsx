@@ -3,7 +3,7 @@ import css from './input.module.scss';
 import { Component, createSignal, JSX } from 'solid-js';
 import { TiBackspaceOutline } from 'solid-icons/ti';
 import { FiEdit3 } from 'solid-icons/fi';
-import { changeStyle, delayStateChange, getElementById, uuid } from '../../utils/Utils';
+import { changeStyle, getElementById, uuid } from '../../utils/Utils';
 
 interface IInputProps extends JSX.InputHTMLAttributes<HTMLInputElement> {
     label?: string;
