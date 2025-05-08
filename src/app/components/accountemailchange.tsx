@@ -22,13 +22,14 @@ type TEmail = typeof checkEmailValidity.infer
 export const AccountEmailChange = () => {
     const emailId = "email" + uuid()
     const [email, setEmail] = createSignal<TEmail>({ address: ""})
+    const [isLoading, setIsLoading] = createSignal(false)
 
     let emailRef: HTMLInputElement | undefined;
 
 
     return (
         <>
-            {userState().isLoading && <Loader/>}
+            {isLoading() && <Loader/>}
 
             <div class={cx("flex column gap-s", css.isVerified,
                  userState().isPendingChange ? css.pending :
@@ -99,9 +100,13 @@ export const AccountEmailChange = () => {
                         onClick={
                             async (e) => {
                                 changeStyle(e.currentTarget as HTMLElement, "bounceSVGright", 200)
-                                const r = await sendEmailChangeRequest(email().address)
+                                setIsLoading(true)
+                                const r = sendEmailChangeRequest(email().address)
                                 let unsub: UnsubscribeFunc | undefined = undefined
-                                if(r)unsub = await subscribeUserChange(authRefresh)
+                                if(!!r){
+                                    unsub = await subscribeUserChange(authRefresh)
+                                    setIsLoading(false)
+                                }
                                 if(userState().user?.email && unsub)unsub()
                             }}>
                                 <T>Send request</T>

@@ -18,6 +18,7 @@ interface IInputProps extends JSX.InputHTMLAttributes<HTMLInputElement> {
     validity?: boolean;
     wiggle?: boolean;
     tooltip?: string;
+    isLoading?: boolean;
 }
 
 //example use:
@@ -52,6 +53,12 @@ export const Input: Component<IInputProps> = (
         const input = getElementById(id) as HTMLInputElement
         if(input && props.initialValue === input.value){
             setIsEdited(false)
+        }
+        if(input && props.disabled){
+            input.onclick = (e) => {
+                e.preventDefault()
+                e.stopPropagation()
+            }
         }
 
         if (props.wiggle) {

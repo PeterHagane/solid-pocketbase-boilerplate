@@ -20,11 +20,6 @@ export const AccountSettings =()=>{
         name: "name" + uuid(),
     }
 
-    // const initialSettings: IAccountSettings = {
-    //     username: userState().user?.username,
-    //     name:  userState().user?.name,
-    // }
-
     const [initialSettings, setInitialSettings] = createSignal<IAccountSettings>(
         {
             username: userState().user?.username,
@@ -32,6 +27,7 @@ export const AccountSettings =()=>{
         }
     )
     const [settings, setSettings] = createSignal<IAccountSettings>({...initialSettings()})
+    const [isLoading, setIsLoading] = createSignal(false)
     const [hasUpdated, setHasUpdated] = createSignal(false)
 
     const anyEdited =()=>{
@@ -58,9 +54,10 @@ export const AccountSettings =()=>{
 
 
     return (<>
-        {userState().isLoading && <Loader></Loader>}
+        {isLoading() && <Loader></Loader>}
         <form class={cx("flex center start column gap-s form fullHeight", css.card)}
-            onSubmit={(e) => { 
+            onSubmit={(e) => {
+                setIsLoading(true)
                 e.preventDefault()
                 updateCallback(
                     ()=>{
@@ -79,7 +76,9 @@ export const AccountSettings =()=>{
                         username: userState().user?.username,
                         name:  userState().user?.name,
                     })
+                    setIsLoading(false)
                 })
+                
             }}
             onInput={(e)=>{
                 const t = e.target as HTMLInputElement

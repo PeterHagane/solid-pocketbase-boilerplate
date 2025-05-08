@@ -70,7 +70,7 @@ export const registerUser = async ({ username, password }: ILoginForm) => {
                 user: pb.authStore.record,
                 pb: pb
             })
-            notify({ title: t(`User registered. You can sign in now.`), color: "hsla(var(--r-good), 1)", duration: 6000 })
+            notify({ title: t(`User registered. You can sign in now.`), color: "hsla(var(--r-good), 0.6)", duration: 6000 })
             return true
         }).catch((e) => {
             setUserState({
@@ -106,7 +106,7 @@ export const signIn = async ({ username, password }: ILoginForm) => {
                 pb: pb,
                 userToken: pb.authStore.token
             })
-            notify({ title: `${t(`Signed in`)}. ${t(`Welcome`)}, ${username}`, color: "hsla(var(--r-good), 1)", duration: 6000 })
+            notify({ title: `${t(`Signed in`)}. ${t(`Welcome`)}, ${username}`, color: "hsla(var(--r-good), 0.6)", duration: 6000 })
             return true
         }).catch((e) => {
             setUserState({
@@ -131,7 +131,7 @@ export const signOut = async () => {
         userToken: null
     })
     pb.authStore.clear()
-    notify({ title: t(`Signed out`), color: "var(--good)", duration: 6000 })
+    notify({ title: t(`Signed out`), color: "hsla(var(--r-good), 0.6)", duration: 6000 })
 }
 
 
@@ -148,8 +148,7 @@ export const sendEmailChangeRequest = async (email: string) => {
             isPendingChange: true,
             isLoading: false,
         })
-        notify({ title: t("Success"), color: "hsla(var(--r-good), 1)", duration: 6000 })
-        return r
+        notify({ title: t("Success"), color: "hsla(var(--r-good), 0.6)", duration: 6000 })
     }).catch(
         (e)=>{
             setUserState({
@@ -164,7 +163,6 @@ export const sendEmailChangeRequest = async (email: string) => {
                 message: t(e.response.data?.newEmail?.message ? e.response.data.newEmail.message : e.response.message ? e.response.message : ""),
                 duration: 6000,
                 dismissible: true })
-        return false
         }
     )
 }
@@ -274,7 +272,7 @@ export const authRefresh = async(successMsg?: string, errorMsg?: string)=>{
                 pb: pb,
                 userToken: pb.authStore.token
             })
-         successMsg && notify({ title: t(successMsg || "Success"), color: "hsla(var(--r-good), 1)", duration: 6000 })
+         successMsg && notify({ title: t(successMsg || "Success"), color: "hsla(var(--r-good), 0.6)", duration: 6000 })
          return a
         }
     ).catch(
