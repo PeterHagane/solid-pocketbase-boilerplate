@@ -96,11 +96,6 @@ p {
 
 .noClick { pointer-events: none;}
 
-[opacity-value]{
-    --opacity: attr(opacity-value type(<number>), 1);
-    opacity: var(--opacity);
-}
-
 /* MAGIC INPUT
 USAGE:
 <input>
@@ -298,6 +293,7 @@ Simple as. Defaults:
 
     >input {
       all: unset;
+      position: relative;
       width: calc(100% - (var(--padding) * 2));
       height: 26px;
       border-radius: 5px;
@@ -437,4 +433,36 @@ input:-webkit-autofill:active {
 
 .margin0auto {
   margin: 0 auto;
+}
+
+
+
+[opacity-value]{
+  --opacity: attr(opacity-value type(<number>), 1);
+  opacity: var(--opacity);
+}
+
+.tooltip {
+  position: relative;
+  &::after {
+    content: attr(data-tooltip);  /* Use the data-tooltip attribute value */
+    position: absolute;
+    background-color: hsla(var(--r-surface-100), 0.9);
+    padding: 5px;
+    border-radius: 5px;
+    font-size: smaller;
+    color: hsla(var(--r-text-primary), 1);
+    white-space: nowrap;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -100%);  /* Center horizontally and position above */
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    pointer-events: none;  /* Prevent tooltip from interfering with clicks */
+  }
+  
+  &:hover::after {
+    opacity: 1;  /* Show tooltip on hover */
+  }
 }

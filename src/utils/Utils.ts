@@ -24,7 +24,7 @@ export const changeStyle = (element: HTMLElement, cssClass: string, delay?: numb
 
 export const delayStateChange = (callback: () => void, delay: number) => {
   setTimeout(() => {
-    callback()
+    return callback()
   }, delay)
 }
 

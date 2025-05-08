@@ -1,9 +1,11 @@
 import cx from 'classnames';
 import css from './input.module.scss';
-import { Component, createSignal, JSX } from 'solid-js';
+import { Component, createEffect, createSignal, JSX } from 'solid-js';
 import { TiBackspaceOutline } from 'solid-icons/ti';
 import { FiEdit3 } from 'solid-icons/fi';
-import { changeStyle, getElementById, uuid } from '../../utils/Utils';
+import { changeStyle, delayStateChange, getElementById, uuid } from '../../utils/Utils';
+import { FaSolidCheck } from 'solid-icons/fa';
+import { t } from '../stores/translationStore';
 
 interface IInputProps extends JSX.InputHTMLAttributes<HTMLInputElement> {
     label?: string;
@@ -13,8 +15,24 @@ interface IInputProps extends JSX.InputHTMLAttributes<HTMLInputElement> {
     resetCallback?: () => void;
     onInputCallback?: (value: string) => void;
     "data-key"?: string;
-    validity?: boolean;    
+    validity?: boolean;
+    wiggle?: boolean;
+    tooltip?: string;
 }
+
+//example use:
+// const[text, setText] = createSignal<string>("")
+// <Input 
+// initialValue={""}
+// edit
+// label={"name"}
+// onInputCallback={setText}
+// resetCallback={()=>{
+//     setText("")
+// }}
+// wiggle={hasUpdated()}
+// tooltip={"Type your name here"}
+// ></Input>
 
 export const Input: Component<IInputProps> = (
     props,
@@ -23,9 +41,42 @@ export const Input: Component<IInputProps> = (
     const [hasValue, setHasValue] = createSignal(hasInitialValue);
     const [isEdited, setIsEdited] = createSignal(false);
     const [hasFocus, setHasFocus] = createSignal(false);
+    const [delayedWiggle, setDelayedWiggle] = createSignal(false);
 
+    const id = props.id || "input" + uuid();
 
-    const id = props.id || uuid();
+    let editRef!: SVGSVGElement;
+    let checkRef!: SVGSVGElement;
+    
+    createEffect(() => {
+        const input = getElementById(id) as HTMLInputElement
+        if(input && props.initialValue === input.value){
+            setIsEdited(false)
+        }
+
+        if (props.wiggle) {
+            setDelayedWiggle(true);
+            delayStateChange(() => {
+                setDelayedWiggle(false);
+            }, 1000);
+
+            checkRef.style.opacity = "1"
+            checkRef.classList.add("popAndWiggle")
+            delayStateChange(() => {
+                checkRef.style.opacity = "0"
+                checkRef.classList.remove("popAndWiggle")
+            }, 1000)
+        }
+
+        if(props.edit && !delayedWiggle()){
+            if(!isEdited() && !hasFocus()){
+                editRef.style.opacity = "1"
+            }
+            if(hasFocus() || props.disabled){
+                editRef.style.opacity = "0"
+            }
+        }
+    });
 
     return (
         <span
@@ -37,13 +88,17 @@ export const Input: Component<IInputProps> = (
             has-validity={props.validity}
             has-focus={hasFocus()}
 
-            class={cx(css.inputContainer)}>
+            class={cx(css.inputContainer, !!props.tooltip ? "tooltip": "")}
+            data-tooltip={props.disabled ? t(props.tooltip) : ""}
+            >
+            
             
             <input
                 {...props}
                 id={id}
                 value={props.initialValue || ""}
-                class={cx(css.input, props.class, "")}
+                class={cx(css.input, props.class, )}
+                
                 style={props.style}
                 ref={props.ref}
                 data-key={props["data-key"]}
@@ -57,23 +112,29 @@ export const Input: Component<IInputProps> = (
                 }}
                 onFocus={() => {setHasFocus(true)}}
                 onBlur={() => {setHasFocus(false)}}
+                disabled={props.disabled}
             />
 
             {props.label && <label for={id}>{props.label}</label>}
             
-            <FiEdit3 edit-icon size={22} opacity={(props.edit && !isEdited() && !hasFocus()) ? 1: 0}/>
             
+            <FiEdit3 ref={editRef} edit-icon size={22} opacity={ 0 }/>
+            <FaSolidCheck ref={checkRef} check-icon size={22} opacity={0}/>
+
             <button
                 style={{"opacity": (props.resetCallback && isEdited()) ? 1 : 0}}
                 class={cx("flex center")}
                 onMouseDown={(e)=>{ //use onMouseDown instead of onClick to prevent focusing button
                     e.preventDefault()
                     changeStyle(e.target as HTMLElement, "bounceSVGleft", 200)
-                    props.resetCallback!()
+
+                    if(props.resetCallback)props.resetCallback()
+
                     const input = getElementById(id) as HTMLInputElement
                     if(input){
+                        input.value = props.initialValue?.toString() || ""
                         input.focus()
-                        input.dispatchEvent(new Event("input", { bubbles: true }))
+                        input.dispatchEvent(new Event("input", { bubbles: true }))//when resetting, simulate input to trigger onInput
                     }
                 }}
                 >

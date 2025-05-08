@@ -179,23 +179,23 @@ export const sendVerificationRequest = async (email: string) => {
     )
 }
 
-export const updateRecord = async(record: string, recordId: string, data: any )=>{
+export const updateRecord = async(record: string, recordId: string, data: any, successMsg?: string, errorMsg?: string )=>{
     let promise = pb.collection(record).update(recordId, data);
     // let response = await promise
-    setLoadingErrorThenAndCatch(
+    return setLoadingErrorThenAndCatch(
         promise,
-        "Error",
-        `Success`
+        successMsg || "Success",
+        errorMsg || "Error"
     )
 }
 
-export const updateCallback = async(callback: ()=>Promise<any>)=>{
+export const updateCallback = async(callback: ()=>Promise<any>, successMsg?: string, errorMsg?: string)=>{
     let promise = callback()
 
-    setLoadingErrorThenAndCatch(
+    return setLoadingErrorThenAndCatch(
         promise,
-        "Error",
-        `Success`
+        successMsg || "Success",
+        errorMsg || "Error"
     )
 }
 
@@ -212,7 +212,7 @@ export const setLoadingErrorThenAndCatch = async ( promise: Promise<any>, succes
             isLoading: false,
             isError: undefined
         })
-        notify({ title: t(successMsg || "Success"), color: "hsla(var(--r-good), 1)", duration: 6000 })
+        notify({ title: t(successMsg || "Success"), color: "hsla(var(--r-good), 0.6)", duration: 6000 })
         // return true
     })
     .catch(
@@ -224,7 +224,7 @@ export const setLoadingErrorThenAndCatch = async ( promise: Promise<any>, succes
             })
             notify({
                 title: t(errorMsg || "Error"),
-                color: "hsla(var(--r-danger), 1)",
+                color: "hsla(var(--r-danger), 0.6)",
                 message: t(e.response.data?.newEmail?.message ? e.response.data.newEmail.message : e.response.message ? e.response.message : ""),
                 duration: 6000,
                 dismissible: true })

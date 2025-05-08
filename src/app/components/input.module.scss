@@ -15,7 +15,7 @@
       // width: calc(100% - (var(--padding) * 2) - 2px);
       width: 100%;
       border-radius: 5px;
-      transition: 0.1s;
+      transition: 0.3s;
       height: var(--height);
       padding: var(--padding);
       padding-left: calc(var(--padding) + 2px);
@@ -24,7 +24,7 @@
 
       &:focus {
         background-color: hsla(var(--r-primary), 0.1);
-      }
+      }   
     }
 
     &[has-validity=true]{
@@ -92,12 +92,19 @@
       pointer-events: none;
     }
 
+    [check-icon=true]{
+      position: absolute;
+      right: var(--padding);
+      bottom: calc(var(--padding) + 2px);
+      color: hsla(var(--r-good), 1);
+      pointer-events: none;
+    }
+
     &:hover{
       [edit-icon=true]{
           color: hsla(var(--r-primary), 1)
       }
     }
-
 
     &[has-edit=true]{
       >input{
@@ -109,5 +116,10 @@
           cursor: auto;
         }
       }
+    }
+
+    input:disabled{
+        cursor: not-allowed;
+        color: grey;
     }
   }
