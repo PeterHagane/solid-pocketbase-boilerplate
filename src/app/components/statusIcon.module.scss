@@ -1,0 +1,26 @@
+.iconContainer{
+    width: 0;
+    right: 17px;
+    bottom: -5px;
+    pointer-events: none;
+
+    .check{
+        color: hsla(var(--r-good), 1);
+    }
+
+    .cross{
+        color: hsla(var(--r-error), 1);
+    }
+
+    .loading{
+        z-index: 1;
+    }
+
+
+    &{
+        *{
+        transition: 0.2s;
+        pointer-events: none;
+        }
+    }
+}

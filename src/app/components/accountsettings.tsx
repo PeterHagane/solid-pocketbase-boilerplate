@@ -3,7 +3,7 @@ import cx from "classnames"
 import css from "./accountisverified.module.scss"
 import { pb, updateCallback, userState } from "../stores/pocketBase";
 import { FiSave } from "solid-icons/fi";
-import { createSignal } from "solid-js";
+import { createEffect, createSignal } from "solid-js";
 import { Input } from "./input";
 import { t } from "../stores/translationStore";
 import Loader from "./loader";
@@ -29,6 +29,7 @@ export const AccountSettings =()=>{
     const [settings, setSettings] = createSignal<IAccountSettings>({...initialSettings()})
     const [isLoading, setIsLoading] = createSignal(false)
     const [hasUpdated, setHasUpdated] = createSignal(false)
+    const [hasError, setHasError] = createSignal(false)
 
     const anyEdited =()=>{
         let edited = false
@@ -51,6 +52,9 @@ export const AccountSettings =()=>{
         if(input)input.value = initialSettings()[key as keyof IAccountSettings]
     }
 
+    createEffect(() => {
+        // console.log(hasError())
+    })
 
 
     return (<>
@@ -66,18 +70,31 @@ export const AccountSettings =()=>{
                             settings()
                         )
                     },
-                    t("Settings updated")
-                ).then(()=>{
-                    setHasUpdated(true)
-                    delayStateChange(()=>{
-                        setHasUpdated(false)
-                    }, 1000)
-                    setInitialSettings({
-                        username: userState().user?.username,
-                        name:  userState().user?.name,
-                    })
-                    setIsLoading(false)
-                })
+                    t("Settings updated"),
+                    undefined,
+                    ()=>{
+                        setHasUpdated(true)
+                            delayStateChange(()=>{
+                                setHasUpdated(false)
+                            }, 1000)
+                            setInitialSettings({
+                                username: userState().user?.username,
+                                name:  userState().user?.name,
+                            })
+                            setIsLoading(false)
+                    },
+                    ()=>{
+                        setHasError(true)
+                            delayStateChange(()=>{
+                                setHasError(false)
+                            }, 1000)
+                            setInitialSettings({
+                                username: userState().user?.username,
+                                name:  userState().user?.name,
+                            })
+                            setIsLoading(false)
+                    }
+                )
                 
             }}
             onInput={(e)=>{
@@ -100,11 +117,13 @@ export const AccountSettings =()=>{
             resetCallback={()=>{
                 resetValue("username", ids.username)
             }}
-            wiggle={settings().username !== initialSettings().username && hasUpdated()}
+            didSucceed={settings().username !== initialSettings().username && hasUpdated()}
+            didFail={settings().username !== initialSettings().username && hasError()}
             tooltip={
                 (userState().user?.email === ("") ||
                 userState().user?.email === undefined) ?
                 t("Register email to change username") : undefined}
+            // isLoading={isLoading()}
             >
             </Input>
         
@@ -117,7 +136,10 @@ export const AccountSettings =()=>{
             resetCallback={()=>{
                 resetValue("name", ids.name)
             }}
-            wiggle={settings().name !== initialSettings().name && hasUpdated()}></Input>
+            didSucceed={settings().name !== initialSettings().name && hasUpdated()}
+            didFail={settings().name !== initialSettings().name && hasError()}
+            // isLoading={isLoading()}
+            ></Input>
 
             <button disabled={!anyEdited()} class={cx("flex center gap marginTop")} data-translate type="submit">Save<FiSave></FiSave></button>
     </form>

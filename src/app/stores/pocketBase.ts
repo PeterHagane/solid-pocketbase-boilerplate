@@ -187,24 +187,27 @@ export const updateRecord = async(record: string, recordId: string, data: any, s
     )
 }
 
-export const updateCallback = async(callback: ()=>Promise<any>, successMsg?: string, errorMsg?: string)=>{
+export const updateCallback = async(callback:()=>Promise<any>, successMsg?: string, errorMsg?: string, successFunc?:()=>void, errorFunc?:()=>void)=>{
     let promise = callback()
 
     return setLoadingErrorThenAndCatch(
         promise,
         successMsg || "Success",
-        errorMsg || "Error"
+        errorMsg || "Error",
+        successFunc,
+        errorFunc
     )
 }
 
 
-export const setLoadingErrorThenAndCatch = async ( promise: Promise<any>, successMsg?: string, errorMsg?: string ) => {
+export const setLoadingErrorThenAndCatch = async ( promise: Promise<any>, successMsg?: string, errorMsg?: string, successFunc?:()=>void, errorFunc?:()=>void) => {
     setUserState({
         ...userState(),
         isLoading: true,
         isError: undefined,
     })
     return promise.then(()=>{
+        if(successFunc)successFunc()
         setUserState({
             ...userState(),
             isLoading: false,
@@ -212,9 +215,10 @@ export const setLoadingErrorThenAndCatch = async ( promise: Promise<any>, succes
         })
         notify({ title: t(successMsg || "Success"), color: "hsla(var(--r-good), 0.6)", duration: 6000 })
         // return true
-    })
-    .catch(
+    }).catch(
         (e)=>{
+            if(errorFunc)errorFunc()
+            console.log("step 4")
             setUserState({
                 ...userState(),
                 isLoading: false,

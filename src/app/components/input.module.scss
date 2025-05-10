@@ -44,7 +44,7 @@
     &[has-label=true]{
       >label{
         position: absolute;
-        top: 7px;
+        top: 8px;
         left: 0;
         margin-left: 7px;
         pointer-events: none;
@@ -84,21 +84,22 @@
         }
     }
 
-    [edit-icon=true]{
-      position: absolute;
-      right: var(--padding);
-      bottom: calc(var(--padding) + 2px);
-      color: hsla(var(--r-primary), 0.5);
-      pointer-events: none;
-    }
+    //moved to statusIcon.tsx
+    // [edit-icon=true]{
+    //   position: absolute;
+    //   // right: var(--padding);
+    //   // bottom: calc(var(--padding) + 2px);
+    //   color: hsla(var(--r-primary), 0.5);
+    //   pointer-events: none;
+    // }
 
-    [check-icon=true]{
-      position: absolute;
-      right: var(--padding);
-      bottom: calc(var(--padding) + 2px);
-      color: hsla(var(--r-good), 1);
-      pointer-events: none;
-    }
+    // [check-icon=true]{
+    //   position: absolute;
+    //   right: var(--padding);
+    //   bottom: 4px;
+    //   color: hsla(var(--r-good), 1);
+    //   pointer-events: none;
+    // }
 
     &:hover{
       [edit-icon=true]{

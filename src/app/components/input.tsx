@@ -1,11 +1,11 @@
 import cx from 'classnames';
 import css from './input.module.scss';
 import { Component, createEffect, createSignal, JSX } from 'solid-js';
-import { TiBackspaceOutline } from 'solid-icons/ti';
 import { FiEdit3 } from 'solid-icons/fi';
 import { changeStyle, delayStateChange, getElementById, uuid } from '../../utils/Utils';
-import { FaSolidCheck } from 'solid-icons/fa';
 import { t } from '../stores/translationStore';
+import StatusIcon from './statusIcon';
+import { TiBackspaceOutline } from 'solid-icons/ti';
 
 interface IInputProps extends JSX.InputHTMLAttributes<HTMLInputElement> {
     label?: string;
@@ -16,9 +16,10 @@ interface IInputProps extends JSX.InputHTMLAttributes<HTMLInputElement> {
     onInputCallback?: (value: string) => void;
     "data-key"?: string;
     validity?: boolean;
-    wiggle?: boolean;
+    didSucceed?: boolean;
     tooltip?: string;
     isLoading?: boolean;
+    didFail?: boolean;
 }
 
 //example use:
@@ -33,6 +34,7 @@ interface IInputProps extends JSX.InputHTMLAttributes<HTMLInputElement> {
 // }}
 // wiggle={hasUpdated()}
 // tooltip={"Type your name here"}
+// isLoading={isLoading()}
 // ></Input>
 
 export const Input: Component<IInputProps> = (
@@ -42,12 +44,13 @@ export const Input: Component<IInputProps> = (
     const [hasValue, setHasValue] = createSignal(hasInitialValue);
     const [isEdited, setIsEdited] = createSignal(false);
     const [hasFocus, setHasFocus] = createSignal(false);
-    const [delayedWiggle, setDelayedWiggle] = createSignal(false);
+    const [delayedSucceed, setDelayedSucceed] = createSignal(false);
+    const [delayedFail, setDelayedFail] = createSignal(false);
+
 
     const id = props.id || "input" + uuid();
 
     let editRef!: SVGSVGElement;
-    let checkRef!: SVGSVGElement;
     
     createEffect(() => {
         const input = getElementById(id) as HTMLInputElement
@@ -61,21 +64,20 @@ export const Input: Component<IInputProps> = (
             }
         }
 
-        if (props.wiggle) {
-            setDelayedWiggle(true);
+        if(props.didSucceed){
+            setDelayedSucceed(true)
             delayStateChange(() => {
-                setDelayedWiggle(false);
+                setDelayedSucceed(false);
             }, 1000);
-
-            checkRef.style.opacity = "1"
-            checkRef.classList.add("popAndWiggle")
+        }
+        if(props.didFail){
+            setDelayedFail(true)
             delayStateChange(() => {
-                checkRef.style.opacity = "0"
-                checkRef.classList.remove("popAndWiggle")
-            }, 1000)
+                setDelayedFail(false);
+            }, 1000);
         }
 
-        if(props.edit && !delayedWiggle()){
+        if(props.edit && !delayedSucceed()){
             if(!isEdited() && !hasFocus()){
                 editRef.style.opacity = "1"
             }
@@ -125,8 +127,15 @@ export const Input: Component<IInputProps> = (
             {props.label && <label for={id}>{props.label}</label>}
             
             
-            <FiEdit3 ref={editRef} edit-icon size={22} opacity={ 0 }/>
-            <FaSolidCheck ref={checkRef} check-icon size={22} opacity={0}/>
+            
+            <StatusIcon 
+                triggerCheck={delayedSucceed()} 
+                triggerCross={delayedFail()}
+                loading={props.isLoading} 
+                >
+                <FiEdit3 ref={editRef} color={"hsla(var(--r-primary),0.5)"} edit-icon size={22} opacity={0}/>
+                {/* <FaSolidCheck ref={checkRef} check-icon size={22} opacity={0}/> */}
+            </StatusIcon>
 
             <button
                 style={{"opacity": (props.resetCallback && isEdited()) ? 1 : 0}}

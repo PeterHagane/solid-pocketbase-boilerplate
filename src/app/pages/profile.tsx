@@ -1,4 +1,4 @@
-import { Component} from "solid-js";
+import { Component, createSignal} from "solid-js";
 import { AccountSettings } from "../components/accountsettings";
 import { T } from "../components/translate";
 import { userState } from "../stores/pocketBase";
@@ -7,6 +7,8 @@ import cx from "classnames"
 import { FaRegularChessKing, FaRegularChessPawn } from 'solid-icons/fa'
 import { t } from "../stores/translationStore";
 import { AccountEmailChange } from "../components/accountemailchange";
+import Avatar from "../components/avatar";
+import StatusIcon from "../components/statusIcon";
 
 
 
@@ -17,13 +19,17 @@ export const Profile: Component = () => {
     return (
         <div
             class={cx("flex column", css.profile)}>
-            <div class={cx("pagePadding", css.title)}>
+            <div class={cx("pagePadding flex", css.title)}>
+                <div class="flex column">
                 <h1 data-translate>User profile</h1>
                 {userState().user && <h3 class={"flex row center wrap gap"}><T p={":"}>Signed in as</T> <span class={"flex row center"}>
                     {userState().user?.username}
                     {userState().isAdmin && <FaRegularChessKing class={"marginLeft5"} color="hsla(var(--r-good), 1)" />}
                     {!userState().isAdmin && <FaRegularChessPawn class={"marginLeft5"} color="hsla(var(--r-primary), 0.7)" />}
                 </span></h3>}
+                </div>
+                <Avatar class={"marginLeft"}></Avatar>
+                
             </div>
             <section class={cx("grid center pagePadding", css.section)} max-col-count={2} min-col-size={"20rem"}>
                 <div class={cx("flex column shadow rounding gridCard")}>

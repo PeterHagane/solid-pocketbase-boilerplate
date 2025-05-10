@@ -24,6 +24,7 @@
     "@solid-primitives/autofocus": "^0.0.111",
     "@solid-primitives/mutation-observer": "^1.2.0",
     "@solidjs/router": "^0.15.3",
+    "@soorria/solid-dropzone": "^1.0.1",
     "@tanstack/solid-store": "^0.6.0",
     "arktype": "^2.1.19",
     "classnames": "^2.5.1",

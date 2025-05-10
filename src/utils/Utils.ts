@@ -15,7 +15,7 @@ export const changeStyleById = (id: string, cssClass: string, delay?: number, re
   delay && delayStateChange(() => e?.classList.remove(cssClass), delay)
 }
 
-export const changeStyle = (element: HTMLElement, cssClass: string, delay?: number, remove?: boolean) => {
+export const changeStyle = (element: HTMLElement | SVGSVGElement, cssClass: string, delay?: number, remove?: boolean) => {
   !remove && element?.classList.add(cssClass)
   remove && element?.classList.remove(cssClass)
   //cleanup for animations
