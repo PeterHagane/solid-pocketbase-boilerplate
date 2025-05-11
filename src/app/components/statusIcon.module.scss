@@ -12,6 +12,11 @@
         color: hsla(var(--r-error), 1);
     }
 
+    .child{
+        position: absolute;
+        bottom: 7px;
+    }
+
     .loading{
         z-index: 1;
     }

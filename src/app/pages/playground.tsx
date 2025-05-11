@@ -9,19 +9,21 @@ export const Playground = () => {
 
     return (
         <>
-           Playground
-
-           <button onclick={()=>toggleCheck(!check())} class={"flex center gap"}>check </button>
-                <button onclick={()=>toggleCross(!cross())}class={"flex center gap"}>cross </button>
-                <button onclick={()=>toggleLoading(!loading())}class={"flex center gap"}>load </button>
-
-                <StatusIcon
-                    triggerCross={cross()}
-                    triggerCheck={check()}
-                    loading={loading()}
-                >
-                    <FaRegularChessKing></FaRegularChessKing>
-                </StatusIcon>
+            <>
+               Playground
+        
+               <button onclick={()=>toggleCheck(!check())} class={"flex center gap"}>check </button>
+                    <button onclick={()=>toggleCross(!cross())}class={"flex center gap"}>cross </button>
+                    <button onclick={()=>toggleLoading(!loading())}class={"flex center gap"}>load </button>
+        
+                    <StatusIcon
+                        triggerCross={cross()}
+                        triggerCheck={check()}
+                        loading={loading()}
+                    >
+                        <FaRegularChessKing></FaRegularChessKing>
+                    </StatusIcon>
+            </>
         </>
     )
 }
