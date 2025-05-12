@@ -1,4 +1,4 @@
-import { Component, createSignal} from "solid-js";
+import { Component} from "solid-js";
 import { AccountSettings } from "../components/accountsettings";
 import { T } from "../components/translate";
 import { userState } from "../stores/pocketBase";
@@ -8,7 +8,7 @@ import { FaRegularChessKing, FaRegularChessPawn } from 'solid-icons/fa'
 import { t } from "../stores/translationStore";
 import { AccountEmailChange } from "../components/accountemailchange";
 import Avatar from "../components/avatar";
-import StatusIcon from "../components/statusIcon";
+
 
 
 

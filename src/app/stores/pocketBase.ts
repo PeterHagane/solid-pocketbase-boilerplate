@@ -5,8 +5,8 @@ import { ILoginForm } from '../components/loginForm';
 import { t } from './translationStore';
 import { PocketSession } from './pocektBaseTypes';
 
-const url = 'https://haproco.pockethost.io/'
-export const pb = new PocketBase(url)
+export const pburl = 'https://haproco.pockethost.io/'
+export const pb = new PocketBase(pburl)
 
 export const [userState, setUserState] = createSignal<Partial<PocketSession>>({
     user: pb.authStore.record,
@@ -25,6 +25,8 @@ pb.authStore.onChange((token, model) => {
         setUserState((prev)=>{
             return {
                 ...prev,
+                avatar: model?.avatar,
+                email: model?.email,
                 user: model, //AKA pb.authStore.record
                 userToken: token,
                 isLoading: false,
@@ -189,6 +191,7 @@ export const updateRecord = async(record: string, recordId: string, data: any, s
 
 export const updateCallback = async(callback:()=>Promise<any>, successMsg?: string, errorMsg?: string, successFunc?:()=>void, errorFunc?:()=>void)=>{
     let promise = callback()
+    console.log(promise)
 
     return setLoadingErrorThenAndCatch(
         promise,
