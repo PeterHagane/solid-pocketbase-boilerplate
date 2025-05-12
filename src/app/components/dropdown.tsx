@@ -1,5 +1,5 @@
 import { DropdownMenu as KDropdownMenu } from '@kobalte/core/dropdown-menu';
-import { children, createSignal, JSX } from 'solid-js';
+import { createSignal, JSX } from 'solid-js';
 import './dropdown.module.scss';
 import cx from 'classnames';
 import css from './dropdown.module.scss';
