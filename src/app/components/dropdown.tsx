@@ -9,9 +9,7 @@ export const DropdownMenu = (
 	_props: { children?: JSX.Element | JSX.Element[]; class?: string; trigger?: JSX.Element; triggerId?: string, closeOnSelect?: boolean }
 ) => {
 	const [open, setOpen] = createSignal(false);
-
-	const c = children(() => _props.children).toArray() as JSX.Element[]
-	const props = Object.assign({ children: c, closeOnSelect: false }, _props)
+	const props = Object.assign( _props, { closeOnSelect: true })
 
 	return (
 		<KDropdownMenu
@@ -40,9 +38,10 @@ export const DropdownMenu = (
 					class={cx('flex column gap padding rounding', css.dropdownContent)}
 					id="dropDownContent"
 				>
-					{props.children.map((c, index) => {
+					{!Array.isArray(props.children) && props.children}
+					{Array.isArray(props.children) && props.children.map((c, index) => {
 						return (
-							<KDropdownMenu.Item closeOnSelect={props.closeOnSelect} style={`--i: ${index + 1}`}>
+							<KDropdownMenu.Item closeOnSelect={_props.closeOnSelect} style={`--i: ${index + 1}`}>
 								{c}
 							</KDropdownMenu.Item>
 						);
