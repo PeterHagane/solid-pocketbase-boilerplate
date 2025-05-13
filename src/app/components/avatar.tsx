@@ -9,7 +9,7 @@ import { DropdownMenu } from "./dropdown"
 import { uuid } from "../../utils/Utils"
 import StatusIcon from "./statusIcon"
 import { TbUpload } from "solid-icons/tb"
-import { FiExternalLink } from "solid-icons/fi"
+import { FiExternalLink, FiTrash2 } from "solid-icons/fi"
 import { getInitials } from "./userIcon"
 
 
@@ -36,7 +36,7 @@ export const Avatar: Component<IAvatarProps> = (
             ()=>{
                 return pb.collection("users").update(
                     userState().user?.id || "", 
-                    {avatar: acceptedFiles[0]},
+                    {avatar: acceptedFiles[0] || ""},
                 )
             },
             t("Avatar updated"),
@@ -51,7 +51,12 @@ export const Avatar: Component<IAvatarProps> = (
     
     return <>
     <div 
-        class={cx("shadow flex center", props.upload?"tooltip":"", css.avatarContainer, props.class)} 
+        class={cx(
+            "shadow flex center", 
+            props.upload?"tooltip":"", css.avatarContainer, 
+            dropzone.isDragActive ? css.showIcon: css.showInitials,
+            props.class
+        )} 
         style={{"width": props.size?.toString() || "70px", "height": props.size?.toString() || "70px"}}
         data-size={props.size}
         data-tooltip={t("Drag & drop to upload")}
@@ -61,16 +66,16 @@ export const Avatar: Component<IAvatarProps> = (
             
             <img src={pb.files.getURL(userState().user || {}, userState().user?.avatar, {'thumb': '64x64'})}></img>
             {!userState().user?.avatar && <div 
-                class={css.userIcon}
+                class={cx(css.userIcon)}
             >
                     {!props.upload && <div class={css.cursor}>{getInitials(userState().user?.name || userState().user?.username || "")}</div>}
                     {props.upload && <>
-                    <div class={css.initials}>{getInitials(userState().user?.name || userState().user?.username || "")}</div>
-                    <TbUpload class={css.upload} size={"30%"} color={"hsla(var(--r-primary),1)"}/>
+                    <div class={cx(css.initials)}>{getInitials(userState().user?.name || userState().user?.username || "")}</div>
+                    <TbUpload class={cx(css.upload)} size={"30%"} color={"hsla(var(--r-primary),1)"}/>
                     </>}
             </div>}
             {props.upload && <>
-            <div class={css.dropZone}><TbUpload opacity={dropzone.isDragActive ? 1 : 0} size={"30%"} color={"hsla(var(--r-white),1)"}/></div>
+            {/* <div class={css.dropZone}><TbUpload opacity={dropzone.isDragActive ? 1 : 0} size={"30%"} color={"hsla(var(--r-white),1)"}/></div> */}
             <DropdownMenu
                 placement="bottom"
                 class={css.trigger}
@@ -81,7 +86,7 @@ export const Avatar: Component<IAvatarProps> = (
                     </span>
                 }>
                     <button class="flex row center gap" data-gap={"10px"} onclick={() => {
-                        if(fileRef)fileRef.click()
+                            if(fileRef)fileRef.click()
                         }}>
                          {t("Upload")}
                         <TbUpload class={"marginLeft"} size={"16px"} />
@@ -101,6 +106,12 @@ export const Avatar: Component<IAvatarProps> = (
                         }}>
                          {t("View")}
                         <FiExternalLink class={"marginLeft"} />
+                    </button>
+                    <button class="flex row alignItemsCenter gap danger" text-align={"left"} onclick={(e) => {
+                            onDrop([])
+                        }}>
+                         {t("Delete")}
+                        <FiTrash2 class={"marginLeft"} />
                     </button>
             </DropdownMenu>
             <div class={cx(css.icon)}>

@@ -523,3 +523,7 @@ input:-webkit-autofill:active {
   text-align: attr(text-align);
   text-align: left;
 }
+
+.danger{
+  color: hsla(var(--r-error));
+}
