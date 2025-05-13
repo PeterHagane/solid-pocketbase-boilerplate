@@ -75,7 +75,7 @@ export const Avatar: Component<IAvatarProps> = (
                     </>}
             </div>}
             {props.upload && <>
-            {/* <div class={css.dropZone}><TbUpload opacity={dropzone.isDragActive ? 1 : 0} size={"30%"} color={"hsla(var(--r-white),1)"}/></div> */}
+            
             <DropdownMenu
                 placement="bottom"
                 class={css.trigger}
@@ -118,6 +118,7 @@ export const Avatar: Component<IAvatarProps> = (
                <StatusIcon  triggerCheck={initialAvatar() !== userState().user?.avatar && !isLoading()} size={30} ></StatusIcon>
             </div>
             {userState().user?.avatar && <div class={css.blur}></div>}
+            <div class={css.dropZone}><TbUpload opacity={dropzone.isDragActive ? 1 : 0} size={"30%"} color={"hsla(var(--r-white),1)"}/></div>
         </>}
     </div>
     
