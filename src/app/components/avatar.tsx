@@ -101,24 +101,29 @@ export const Avatar: Component<IAvatarProps> = (
                         >
                     </input>
                     </button>
-                    <button class="flex row alignItemsCenter gap" text-align={"left"} onclick={() => {
+                    {userState().user?.avatar &&
+                        <button class="flex row alignItemsCenter gap" text-align={"left"} onclick={() => {
                             window.open(pb.files.getURL(userState().user || {}, userState().user?.avatar), '_blank')!.focus();
                         }}>
                          {t("View")}
                         <FiExternalLink class={"marginLeft"} />
-                    </button>
-                    <button class="flex row alignItemsCenter gap danger" text-align={"left"} onclick={() => {
+                    </button>}
+                    {userState().user?.avatar && <button class="flex row alignItemsCenter gap danger" text-align={"left"} onclick={() => {
                             onDrop([])
                         }}>
                          {t("Delete")}
                         <FiTrash2 class={"marginLeft"} />
-                    </button>
+                    </button>}
+
             </DropdownMenu>
             <div class={cx(css.icon)}>
                <StatusIcon  triggerCheck={initialAvatar() !== userState().user?.avatar && !isLoading()} size={30} ></StatusIcon>
             </div>
-            {userState().user?.avatar && <div class={css.blur}></div>}
-            <div class={css.dropZone}><TbUpload opacity={dropzone.isDragActive ? 1 : 0} size={"30%"} color={"hsla(var(--r-white),1)"}/></div>
+            {userState().user?.avatar && <>
+            <div class={css.blur}></div>
+            <div class={css.dropZone}><TbUpload opacity={dropzone.isDragActive ? 1 : 0} size={"30%"} color={"hsla(var(--r-primary),1)"}/></div>
+            </>
+            }
         </>}
     </div>
     
