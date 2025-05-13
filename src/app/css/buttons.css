@@ -1,4 +1,4 @@
-button {
+.button,button {
   all: unset;
   height: auto;
   width: auto;

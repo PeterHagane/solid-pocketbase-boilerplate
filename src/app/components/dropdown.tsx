@@ -1,18 +1,32 @@
-import { DropdownMenu as KDropdownMenu } from '@kobalte/core/dropdown-menu';
-import { createSignal, JSX } from 'solid-js';
+import { DropdownMenuRootProps, DropdownMenu as KDropdownMenu } from '@kobalte/core/dropdown-menu';
+import { createEffect, createSignal, JSX } from 'solid-js';
 import './dropdown.module.scss';
 import cx from 'classnames';
 import css from './dropdown.module.scss';
 import { changeStyle, changeStyleById, delayStateChange } from '../../utils/Utils';
 
+interface IDropdownMenuProps extends DropdownMenuRootProps {
+	children?: JSX.Element | JSX.Element[];
+	class?: string;
+	trigger?: JSX.Element;
+	triggerId?: string,
+	closeOnSelect?: boolean
+	placement?: 'top' | 'bottom' | 'left' | 'right' | "bottom-start" | "bottom-end" | "top-start" | "top-end" | "left-start" | "left-end" | "right-start" | "right-end";
+}
+
 export const DropdownMenu = (
-	_props: { children?: JSX.Element | JSX.Element[]; class?: string; trigger?: JSX.Element; triggerId?: string, closeOnSelect?: boolean }
+	_props: IDropdownMenuProps
 ) => {
 	const [open, setOpen] = createSignal(false);
 	const props = Object.assign( _props, { closeOnSelect: true })
 
+	createEffect(() => {
+		props.onOpenChange && props.onOpenChange(open())
+	})
+
 	return (
 		<KDropdownMenu
+			placement={props.placement || 'bottom-end'}
 			open={open()}
 			onOpenChange={() => {
 				changeStyle(

@@ -84,7 +84,7 @@ const LoginForm = (_props: ILoginFormProps) => {
                 data-validity
             ></input>
             <label for={loginIds.password} data-translate>Password</label>
-            <div class={cx("flex center gap-s", css.submitContainer)}>
+            <div class={cx("flex alignItemsCenter gap-s", css.submitContainer)}>
                 <button
                     id={loginIds.loginButton}
                     type="submit"

@@ -8,7 +8,7 @@ import { signOut, userState } from "../../stores/pocketBase";
 import { useNavigate } from "@solidjs/router";
 import { LanguageDropdown } from "../languageDropdown";
 import { Logo } from "../logo";
-import ProfilePicture from "../profilePicture";
+import UserIcon from "../userIcon";
 import { screenSize } from "../../stores/settingsStore";
 
 export const Header = (_props: any) => {
@@ -72,7 +72,7 @@ export const Header = (_props: any) => {
             trigger={
                 <span class="flex row center gap" id="dropdownUserSpan">
                     {userState().user?.username}
-                    <ProfilePicture isLoggedIn={userState().isSignedIn ?? false} />
+                    <UserIcon isLoggedIn={userState().isSignedIn ?? false} />
                 </span>
             }
         >

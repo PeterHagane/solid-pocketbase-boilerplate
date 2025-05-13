@@ -128,7 +128,9 @@ export const Input: Component<IInputProps> = (
             
             
             
-            <StatusIcon 
+            <StatusIcon
+                class={cx(css.statusIcon, "relative")}
+                size={22}
                 triggerCheck={delayedSucceed()} 
                 triggerCross={delayedFail()}
                 loading={props.isLoading} 

@@ -2,39 +2,38 @@ import cx from "classnames"
 import css from "./avatar.module.scss"
 import { Component, createSignal, JSX } from "solid-js"
 import { createDropzone } from '@soorria/solid-dropzone'
-import { pb, pburl, setUserState, updateCallback, userState } from "../stores/pocketBase"
+import { pb, setUserState, updateCallback, userState } from "../stores/pocketBase"
 import { t } from "../stores/translationStore"
 import Loader from "./loader"
 import { DropdownMenu } from "./dropdown"
-import { changeStyle, uuid } from "../../utils/Utils"
+import { uuid } from "../../utils/Utils"
+import StatusIcon from "./statusIcon"
+import { TbUpload } from "solid-icons/tb"
+import { FiExternalLink } from "solid-icons/fi"
+import { getInitials } from "./userIcon"
 
 
 interface IAvatarProps extends JSX.HTMLAttributes<HTMLDivElement> {
     children?: JSX.Element
     height?: number | string
     width?: number | string
+    upload?: boolean
 }
 
-
-
 // export const avatarUrl = `${pburl}api/files/${userState().user?.collectionId || ""}/${userState().user?.id}/`
+// const url: any = pb.files.getURL(userState().user!, userState().user?.avatar, {'thumb': '250x250'});
 
 export const Avatar: Component<IAvatarProps> = (
     props
 ) => {
-    const [currentAvatar, setCurrentAvatar] = createSignal<any>(undefined)
-    const [newAvatar, setNewAvatar] = createSignal<any>(undefined)
+    const [initialAvatar] = createSignal(userState().user?.avatar)
     const [isLoading, setIsLoading] = createSignal(false)
     const dropDownId = "avatarDropdown" + uuid()
-
-    // const url: any = pb.files.getURL(userState().user!, userState().user?.avatar, {'thumb': '250x250'});
+    let fileRef: HTMLInputElement | undefined;
 
     const onDrop = (acceptedFiles: File[]) => {
-        // Do something with the files
-        console.log(acceptedFiles)
-
         setIsLoading(true)
-        const r = updateCallback(
+        updateCallback(
             ()=>{
                 return pb.collection("users").update(
                     userState().user?.id || "", 
@@ -47,51 +46,71 @@ export const Avatar: Component<IAvatarProps> = (
             ()=>{setIsLoading(false)},
         )
 
-        console.log(r)
-        setUserState((prev)=> { return {...prev, avatar: undefined} })
+        setUserState((prev)=> { return {...prev, avatar: userState().user?.avatar} })
     }
-
     const dropzone = createDropzone({ onDrop })
-
+    
     return <>
     <div 
-    class={cx("tooltip",css.avatarContainer, props.class)} 
+    class={cx("shadow flex center", props.upload?"tooltip":"", css.avatarContainer, props.class)} 
     style={{"width": props.width?.toString() || "70px", "height": props.height?.toString() || "70px"}}
-    data-tooltip={t("Upload new profile image")}
+    data-size={props.width || props.height}
+    data-tooltip={t("Drag & drop to upload")}
     
     {...dropzone.getRootProps()}>
         {isLoading() && <Loader></Loader>}
-        {/* <input {...dropzone.getInputProps()}></input> */}
-        <img src={pb.files.getURL(userState().user || {}, userState().user?.avatar, {'thumb': '70x70'})}></img>
-        <div class={css.dropZone}>{dropzone.isDragActive ? "" : ""}</div>
         
-
-
+        <img src={pb.files.getURL(userState().user || {}, userState().user?.avatar, {'thumb': '64x64'})}></img>
+        {!userState().user?.avatar && <div 
+            class={css.userIcon}
+        >
+                <div class={css.initials}>{getInitials(userState().user?.name || userState().user?.username || "")}</div>
+                <TbUpload class={css.upload} size={"30%"} color={"hsla(var(--r-primary),1)"}/>
+        </div>}
+        {props.upload && <>
+        <div class={css.dropZone}><TbUpload opacity={dropzone.isDragActive ? 1 : 0} size={"30%"} color={"hsla(var(--r-white),1)"}/></div>
+        <DropdownMenu
+            onOpenChange={(e) => {console.log(e)}}
+            placement="bottom"
+            class={css.trigger}
+            closeOnSelect
+            triggerId={dropDownId}
+            trigger={
+                <span class={cx("flex row center", css.trigger, dropzone.isDragActive ? css.blur : "")} id={dropDownId}>
+                </span>
+            }>
+                <button class="flex row center gap" data-gap={"10px"} onclick={() => {
+                    if(fileRef)fileRef.click()
+                    }}>
+                     {t("Upload")}
+                    <TbUpload class={"marginLeft"} size={"16px"} />
+                    <input
+                    ref={fileRef}
+                    class={"displayNone"}
+                    type="file"
+                    accept="image/png, image/jpeg, image/jpg, image/webp, image/gif"
+                    onChange={(e) => {
+                        onDrop(Array.from(e.currentTarget.files || []))
+                    }}
+                    >
+                </input>
+                </button>
+                <button class="flex row alignItemsCenter gap" text-align={"left"} onclick={(e) => {
+                        window.open(pb.files.getURL(userState().user || {}, userState().user?.avatar), '_blank')!.focus();
+                    }}>
+                     {t("View")}
+                    <FiExternalLink class={"marginLeft"} />
+                </button>
+        </DropdownMenu>
+        <div class={cx(css.icon)}>
+           <StatusIcon  triggerCheck={initialAvatar() !== userState().user?.avatar && !isLoading()} size={30} ></StatusIcon>
+        </div>
+        {userState().user?.avatar && <div class={css.blur}></div>}
+        </>}
     </div>
     
     
-    <DropdownMenu
-            closeOnSelect
-            triggerId={"dropDownId"}
-            trigger={
-                <span class={cx("flex row center", css.trigger)} id={"dropDownId"}>
-                    asd
-                </span>}>
-
-                <button class="flex row center gap" onclick={(e) => {
-                    changeStyle(e.currentTarget as HTMLElement, "bounceChild", 200)
-
-                }}>
-                    Upload
-                </button>
-                {/* <button class="flex row center gap" onclick={(e) => {
-                    changeStyle(e.currentTarget as HTMLElement, "bounceChild", 200)
-
-                }}>
-                    Upload
-                </button> */}
-
-        </DropdownMenu></>
+</>
 }
 
 export default Avatar

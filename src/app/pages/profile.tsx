@@ -28,7 +28,7 @@ export const Profile: Component = () => {
                     {!userState().isAdmin && <FaRegularChessPawn class={"marginLeft5"} color="hsla(var(--r-primary), 0.7)" />}
                 </span></h3>}
                 </div>
-                <Avatar class={"marginLeft"}></Avatar>
+                <Avatar upload class={"marginLeft"}></Avatar>
                 
             </div>
             <section class={cx("grid center pagePadding", css.section)} max-col-count={2} min-col-size={"20rem"}>

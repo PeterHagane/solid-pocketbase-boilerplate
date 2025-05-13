@@ -10,8 +10,7 @@ interface IAvatarProps extends JSX.HTMLAttributes<HTMLDivElement> {
     triggerCheck?: boolean
     triggerCross?: boolean
     loading?: boolean
-    height?: number | string
-    width?: number | string
+    size?: number | string
     opacity?: number | string
 }
 
@@ -86,10 +85,10 @@ export const StatusIcon: Component<IAvatarProps> = (
 
     return <div
     style={{"opacity": props.opacity?.toString() || "1"}}
-    class={cx("flex center relative", css.iconContainer)} >
+    class={cx("flex center absolute", css.iconContainer, props.class)} >
         <FaSolidCheck  
         ref={checkRef} 
-        size={props.width?.toString() || 22} 
+        size={props.size?.toString() || 22} 
         opacity={0}
         class={cx(
             css.check, "absolute"
@@ -97,7 +96,7 @@ export const StatusIcon: Component<IAvatarProps> = (
 
         <FaSolidXmark 
         ref={crossRef} 
-        size={props.width?.toString() || 22} 
+        size={props.size?.toString() || 22} 
         opacity={0}
         class={cx(
             css.cross, "absolute"
@@ -107,7 +106,7 @@ export const StatusIcon: Component<IAvatarProps> = (
 
         <span 
         ref={childRef} 
-        style={{"width": props.width?.toString() || "22", "height": props.height?.toString() || "22", "opacity": 1}}
+        style={{"width": props.size?.toString() || "22", "height": props.size?.toString() || "22", "opacity": 1}}
         class={
             cx(css.child, "")
         }>

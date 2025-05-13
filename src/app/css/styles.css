@@ -77,7 +77,8 @@ p {
 }
 
 .gap {
-  gap: 5px
+  --gap: attr(data-gap type(<length>), 5px);
+  gap: var(--gap)
 }
 
 .gap-s {
@@ -473,4 +474,52 @@ input:-webkit-autofill:active {
 
 .absolute{
   position: absolute;
+}
+
+.blur{
+  background-color: hsla(var(--r-surface-back), 0.1);
+  backdrop-filter: blur(5px);
+}
+
+.unset{
+  all:unset;
+}
+
+.fileInput{
+  all: unset;
+  opacity: 0;
+  max-width: 50px;
+  
+  visibility: hidden;
+  /* display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%; */
+}
+
+.fileInput::-webkit-file-upload-button {
+  visibility: hidden;
+  opacity: 0;
+}
+.fileInput::before {
+  /* content: 'Select some files'; */
+  display: inline-block;
+  /* background: linear-gradient(top, #f9f9f9, #e3e3e3); */
+  /* border: 1px solid #999; */
+  /* border-radius: 3px; */
+  /* padding: 5px 8px; */
+  /* outline: none; */
+  /* white-space: nowrap; */
+  /* -webkit-user-select: none; */
+  cursor: pointer;
+}
+
+.displayNone{
+  display: none;
+}
+
+.textAlign{
+  text-align: attr(text-align);
+  text-align: left;
 }
