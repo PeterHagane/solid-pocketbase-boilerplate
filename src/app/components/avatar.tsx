@@ -15,8 +15,7 @@ import { getInitials } from "./userIcon"
 
 interface IAvatarProps extends JSX.HTMLAttributes<HTMLDivElement> {
     children?: JSX.Element
-    height?: number | string
-    width?: number | string
+    size?: number | string
     upload?: boolean
 }
 
@@ -52,60 +51,62 @@ export const Avatar: Component<IAvatarProps> = (
     
     return <>
     <div 
-    class={cx("shadow flex center", props.upload?"tooltip":"", css.avatarContainer, props.class)} 
-    style={{"width": props.width?.toString() || "70px", "height": props.height?.toString() || "70px"}}
-    data-size={props.width || props.height}
-    data-tooltip={t("Drag & drop to upload")}
-    
-    {...dropzone.getRootProps()}>
-        {isLoading() && <Loader></Loader>}
+        class={cx("shadow flex center", props.upload?"tooltip":"", css.avatarContainer, props.class)} 
+        style={{"width": props.size?.toString() || "70px", "height": props.size?.toString() || "70px"}}
+        data-size={props.size}
+        data-tooltip={t("Drag & drop to upload")}
         
-        <img src={pb.files.getURL(userState().user || {}, userState().user?.avatar, {'thumb': '64x64'})}></img>
-        {!userState().user?.avatar && <div 
-            class={css.userIcon}
-        >
-                <div class={css.initials}>{getInitials(userState().user?.name || userState().user?.username || "")}</div>
-                <TbUpload class={css.upload} size={"30%"} color={"hsla(var(--r-primary),1)"}/>
-        </div>}
-        {props.upload && <>
-        <div class={css.dropZone}><TbUpload opacity={dropzone.isDragActive ? 1 : 0} size={"30%"} color={"hsla(var(--r-white),1)"}/></div>
-        <DropdownMenu
-            onOpenChange={(e) => {console.log(e)}}
-            placement="bottom"
-            class={css.trigger}
-            closeOnSelect
-            triggerId={dropDownId}
-            trigger={
-                <span class={cx("flex row center", css.trigger, dropzone.isDragActive ? css.blur : "")} id={dropDownId}>
-                </span>
-            }>
-                <button class="flex row center gap" data-gap={"10px"} onclick={() => {
-                    if(fileRef)fileRef.click()
-                    }}>
-                     {t("Upload")}
-                    <TbUpload class={"marginLeft"} size={"16px"} />
-                    <input
-                    ref={fileRef}
-                    class={"displayNone"}
-                    type="file"
-                    accept="image/png, image/jpeg, image/jpg, image/webp, image/gif"
-                    onChange={(e) => {
-                        onDrop(Array.from(e.currentTarget.files || []))
-                    }}
-                    >
-                </input>
-                </button>
-                <button class="flex row alignItemsCenter gap" text-align={"left"} onclick={(e) => {
-                        window.open(pb.files.getURL(userState().user || {}, userState().user?.avatar), '_blank')!.focus();
-                    }}>
-                     {t("View")}
-                    <FiExternalLink class={"marginLeft"} />
-                </button>
-        </DropdownMenu>
-        <div class={cx(css.icon)}>
-           <StatusIcon  triggerCheck={initialAvatar() !== userState().user?.avatar && !isLoading()} size={30} ></StatusIcon>
-        </div>
-        {userState().user?.avatar && <div class={css.blur}></div>}
+        {...dropzone.getRootProps()}>
+            {isLoading() && <Loader></Loader>}
+            
+            <img src={pb.files.getURL(userState().user || {}, userState().user?.avatar, {'thumb': '64x64'})}></img>
+            {!userState().user?.avatar && <div 
+                class={css.userIcon}
+            >
+                    {!props.upload && <div class={css.cursor}>{getInitials(userState().user?.name || userState().user?.username || "")}</div>}
+                    {props.upload && <>
+                    <div class={css.initials}>{getInitials(userState().user?.name || userState().user?.username || "")}</div>
+                    <TbUpload class={css.upload} size={"30%"} color={"hsla(var(--r-primary),1)"}/>
+                    </>}
+            </div>}
+            {props.upload && <>
+            <div class={css.dropZone}><TbUpload opacity={dropzone.isDragActive ? 1 : 0} size={"30%"} color={"hsla(var(--r-white),1)"}/></div>
+            <DropdownMenu
+                placement="bottom"
+                class={css.trigger}
+                closeOnSelect
+                triggerId={dropDownId}
+                trigger={
+                    <span class={cx("flex row center", css.trigger, dropzone.isDragActive ? css.blur : "")} id={dropDownId}>
+                    </span>
+                }>
+                    <button class="flex row center gap" data-gap={"10px"} onclick={() => {
+                        if(fileRef)fileRef.click()
+                        }}>
+                         {t("Upload")}
+                        <TbUpload class={"marginLeft"} size={"16px"} />
+                        <input
+                        ref={fileRef}
+                        class={"displayNone"}
+                        type="file"
+                        accept="image/png, image/jpeg, image/jpg, image/webp, image/gif"
+                        onChange={(e) => {
+                            onDrop(Array.from(e.currentTarget.files || []))
+                        }}
+                        >
+                    </input>
+                    </button>
+                    <button class="flex row alignItemsCenter gap" text-align={"left"} onclick={(e) => {
+                            window.open(pb.files.getURL(userState().user || {}, userState().user?.avatar), '_blank')!.focus();
+                        }}>
+                         {t("View")}
+                        <FiExternalLink class={"marginLeft"} />
+                    </button>
+            </DropdownMenu>
+            <div class={cx(css.icon)}>
+               <StatusIcon  triggerCheck={initialAvatar() !== userState().user?.avatar && !isLoading()} size={30} ></StatusIcon>
+            </div>
+            {userState().user?.avatar && <div class={css.blur}></div>}
         </>}
     </div>
     

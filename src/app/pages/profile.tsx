@@ -29,7 +29,6 @@ export const Profile: Component = () => {
                 </span></h3>}
                 </div>
                 <Avatar upload class={"marginLeft"}></Avatar>
-                
             </div>
             <section class={cx("grid center pagePadding", css.section)} max-col-count={2} min-col-size={"20rem"}>
                 <div class={cx("flex column shadow rounding gridCard")}>

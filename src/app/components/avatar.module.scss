@@ -125,4 +125,11 @@
         }
     }
 
+
+    .cursor{
+        cursor: default;
+    }
+    &:has(.cursor){
+        cursor: default;
+    }
 }
