@@ -101,13 +101,13 @@ export const Avatar: Component<IAvatarProps> = (
                         >
                     </input>
                     </button>
-                    <button class="flex row alignItemsCenter gap" text-align={"left"} onclick={(e) => {
+                    <button class="flex row alignItemsCenter gap" text-align={"left"} onclick={() => {
                             window.open(pb.files.getURL(userState().user || {}, userState().user?.avatar), '_blank')!.focus();
                         }}>
                          {t("View")}
                         <FiExternalLink class={"marginLeft"} />
                     </button>
-                    <button class="flex row alignItemsCenter gap danger" text-align={"left"} onclick={(e) => {
+                    <button class="flex row alignItemsCenter gap danger" text-align={"left"} onclick={() => {
                             onDrop([])
                         }}>
                          {t("Delete")}
