@@ -29,7 +29,7 @@
     "arktype": "^2.1.19",
     "classnames": "^2.5.1",
     "flag-icons": "^7.3.2",
-    "pocketbase": "^0.25.1",
+    "pocketbase": "^0.25.2",
     "sass": "^1.81.0",
     "solid-icons": "^1.1.0",
     "solid-js": "^1.9.3",

@@ -25,7 +25,7 @@ interface IAvatarProps extends JSX.HTMLAttributes<HTMLDivElement> {
 export const Avatar: Component<IAvatarProps> = (
     props
 ) => {
-    const [initialAvatar] = createSignal(userState().user?.avatar)
+    const [didUpload, setDidUpload] = createSignal<boolean | File>(userState().user?.avatar)
     const [isLoading, setIsLoading] = createSignal(false)
     const dropDownId = "avatarDropdown" + uuid()
     let fileRef: HTMLInputElement | undefined;
@@ -41,8 +41,12 @@ export const Avatar: Component<IAvatarProps> = (
             },
             t("Avatar updated"),
             t("Error updating avatar"),
-            ()=>{setIsLoading(false)},
-            ()=>{setIsLoading(false)},
+            ()=>{setIsLoading(false)
+                setDidUpload(true)
+            },
+            ()=>{setIsLoading(false)
+                setDidUpload(false)
+            },
         )
 
         setUserState((prev)=> { return {...prev, avatar: userState().user?.avatar} })
@@ -59,7 +63,7 @@ export const Avatar: Component<IAvatarProps> = (
         )} 
         style={{"width": props.size?.toString() || "70px", "height": props.size?.toString() || "70px"}}
         data-size={props.size}
-        data-tooltip={t("Drag & drop to upload")}
+        data-tooltip={t("Drag & drop to upload avatar")}
         
         {...dropzone.getRootProps()}>
             {isLoading() && <Loader></Loader>}
@@ -117,7 +121,7 @@ export const Avatar: Component<IAvatarProps> = (
 
             </DropdownMenu>
             <div class={cx(css.icon)}>
-               <StatusIcon  triggerCheck={initialAvatar() !== userState().user?.avatar && !isLoading()} size={30} ></StatusIcon>
+               <StatusIcon  triggerCheck={didUpload() === true} size={30} triggerCross={didUpload() === false}></StatusIcon>
             </div>
             {userState().user?.avatar && <>
             <div class={css.blur}></div>

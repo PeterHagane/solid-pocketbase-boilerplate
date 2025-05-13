@@ -5,7 +5,7 @@ import { ILoginForm } from '../components/loginForm';
 import { t } from './translationStore';
 import { PocketSession } from './pocektBaseTypes';
 
-export const pburl = 'https://haproco.pockethost.io/'
+export const pburl = 'https://haproco-crm.pockethost.io/'
 export const pb = new PocketBase(pburl)
 
 export const [userState, setUserState] = createSignal<Partial<PocketSession>>({
@@ -191,7 +191,6 @@ export const updateRecord = async(record: string, recordId: string, data: any, s
 
 export const updateCallback = async(callback:()=>Promise<any>, successMsg?: string, errorMsg?: string, successFunc?:()=>void, errorFunc?:()=>void)=>{
     let promise = callback()
-    console.log(promise)
 
     return setLoadingErrorThenAndCatch(
         promise,
@@ -221,7 +220,6 @@ export const setLoadingErrorThenAndCatch = async ( promise: Promise<any>, succes
     }).catch(
         (e)=>{
             if(errorFunc)errorFunc()
-            console.log("step 4")
             setUserState({
                 ...userState(),
                 isLoading: false,

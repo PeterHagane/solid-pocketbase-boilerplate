@@ -51,7 +51,7 @@ importers:
         specifier: ^7.3.2
         version: 7.3.2
       pocketbase:
-        specifier: ^0.25.1
+        specifier: ^0.25.2
         version: 0.25.2
       sass:
         specifier: ^1.81.0
