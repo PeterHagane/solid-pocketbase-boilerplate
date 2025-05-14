@@ -68,7 +68,7 @@ export const Avatar: Component<IAvatarProps> = (
         {...dropzone.getRootProps()}>
             {isLoading() && <Loader></Loader>}
             
-            <img src={pb.files.getURL(userState().user || {}, userState().user?.avatar, {'thumb': '64x64'})}></img>
+            <img src={pb.files.getURL(userState().user || {}, userState().user?.avatar, {'thumb': '100x100'})}></img>
             {!userState().user?.avatar && <div 
                 class={cx(css.userIcon)}
             >

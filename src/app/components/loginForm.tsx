@@ -24,6 +24,7 @@ interface ILoginFormProps {
 }
 
 export interface ILoginForm {
+    email?: string
     username: string
     password: string
     isValid?: boolean
@@ -40,7 +41,7 @@ const LoginForm = (_props: ILoginFormProps) => {
     }
 
     const handleRegister = async (data: ILoginForm) => {
-        registerUser({ username: data.username, password: data.password }).then(() => {
+        registerUser({ email: isValidEmail(data.username) ? data.username : "", username: !isValidEmail(data.username) ? data.username : "", password: data.password }).then(() => {
             navigate("/login")
         })
     }

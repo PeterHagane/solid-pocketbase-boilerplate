@@ -36,11 +36,10 @@ function App() {
         <Route path="/login" component={() => <Login />} />
         <Route path="/" component={() => <ProtectedRoute><Home /></ProtectedRoute>} />
         <Route path="/profile" component={() => <ProtectedRoute><Profile /></ProtectedRoute>} />
-        <Route path="/playground" component={() => <ProtectedRoute><Playground /></ProtectedRoute>} />
+        {process.env.APP_IS_DEV === "true" && <Route path="/playground" component={() => <ProtectedRoute><Playground /></ProtectedRoute>} />}        
         <Route path="/admin" component={() => <ProtectedRoute><Admin /></ProtectedRoute>} />
         <Route path="*404" component={()=><NotFound/>} />
       </Router>
-      {/* {process.env.APP_IS_DEV === "true" && "asdasdasd"} */}
 
       <Toaster position="bottom-right" />
     </>

@@ -52,7 +52,7 @@ export const setIsAdmin = async (userId?: string) => {
     })
 }
 
-export const registerUser = async ({ username, password }: ILoginForm) => {
+export const registerUser = async ({ email, username, password }: ILoginForm) => {
     setUserState({
         ...userState(),
         isLoading: true,
@@ -63,7 +63,7 @@ export const registerUser = async ({ username, password }: ILoginForm) => {
     return await pb
         .collection("users")
         .create({
-            username: username, password: password, passwordConfirm: password
+            email: email, username: username, password: password, passwordConfirm: password
         })
         .then(() => {
             setUserState({
