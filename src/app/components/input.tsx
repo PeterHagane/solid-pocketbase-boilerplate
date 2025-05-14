@@ -96,9 +96,9 @@ export const Input: Component<IInputProps> = (
             has-value={hasValue()}
             has-validity={props.validity}
             has-focus={hasFocus()}
-
-            class={cx(css.inputContainer, !!props.tooltip ? "tooltip": "")}
-            data-tooltip={props.disabled ? t(props.tooltip) : ""}
+            class={cx(css.inputContainer)}
+            // class={cx(css.inputContainer, !!props.tooltip ? "tooltip": "")} doesn't make sense, keeping in case something breaks
+            data-tooltip={!!props.tooltip ? t(props.tooltip) : null }
             >
             
             

@@ -187,3 +187,8 @@ html[data-theme="Dark"] {
   --color-ocean: 177, 100%, 27%;
   --color-nightsky: 243, 35%, 42%;
 }
+
+.tippy-box[data-theme='tippy-custom'] {
+  background-color: hsla(var(--r-surface-100), 0.9);
+  color: hsla(var(--r-text-primary), 1);
+}

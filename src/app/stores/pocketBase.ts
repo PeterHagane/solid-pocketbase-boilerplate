@@ -144,7 +144,7 @@ export const sendEmailChangeRequest = async (email: string) => {
         isError: undefined,
     })
     return await pb.collection('users').requestEmailChange(email)
-    .then((r)=>{
+    .then(()=>{
         setUserState({
             ...userState(),
             isPendingChange: true,

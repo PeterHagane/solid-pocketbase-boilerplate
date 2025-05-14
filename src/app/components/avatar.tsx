@@ -56,14 +56,14 @@ export const Avatar: Component<IAvatarProps> = (
     return <>
     <div 
         class={cx(
-            "shadow flex center", 
-            props.upload?"tooltip":"", css.avatarContainer, 
+            "shadow flex center",
+            css.avatarContainer, 
             dropzone.isDragActive ? css.showIcon: css.showInitials,
             props.class
         )} 
         style={{"width": props.size?.toString() || "70px", "height": props.size?.toString() || "70px"}}
         data-size={props.size}
-        data-tooltip={t("Drag & drop to upload avatar")}
+        data-tooltip={props.upload ? t("Drag & drop to upload avatar") : null}
         
         {...dropzone.getRootProps()}>
             {isLoading() && <Loader></Loader>}
