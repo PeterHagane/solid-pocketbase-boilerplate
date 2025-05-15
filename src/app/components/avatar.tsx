@@ -53,6 +53,10 @@ export const Avatar: Component<IAvatarProps> = (
     }
     const dropzone = createDropzone({ onDrop })
     
+    const initials = ()=>{
+        return getInitials(userState().user?.name || userState().user?.username || userState().user?.email || "")
+    }
+
     return <>
     <div 
         class={cx(
@@ -72,9 +76,9 @@ export const Avatar: Component<IAvatarProps> = (
             {!userState().user?.avatar && <div 
                 class={cx(css.userIcon)}
             >
-                    {!props.upload && <div class={css.cursor}>{getInitials(userState().user?.name || userState().user?.username || "")}</div>}
+                    {!props.upload && <div class={css.cursor}>{initials()}</div>}
                     {props.upload && <>
-                    <div class={cx(css.initials)}>{getInitials(userState().user?.name || userState().user?.username || "")}</div>
+                    <div class={cx(css.initials)}>{initials()}</div>
                     <TbUpload class={cx(css.upload)} size={"30%"} color={"hsla(var(--r-primary),1)"}/>
                     </>}
             </div>}

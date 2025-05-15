@@ -20,6 +20,7 @@
     "@capacitor/core": "^7.2.0",
     "@capacitor/ios": "^7.2.0",
     "@corvu/resizable": "^0.2.4",
+    "@formkit/auto-animate": "^0.8.2",
     "@kobalte/core": "^0.13.7",
     "@solid-primitives/autofocus": "^0.0.111",
     "@solid-primitives/mutation-observer": "^1.2.0",
