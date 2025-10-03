@@ -1,0 +1,57 @@
+.dropdown {
+    position: absolute;
+    z-index: 1000;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    
+
+    >*{
+        background-color: hsl(var(--r-surface-back), 1);
+        border-radius: 4px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        padding: 8px 12px;  //TODO: make this dynamic based on the size of the item 
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+    }
+}
+
+.dropdownItem {
+    width: 100%;
+    pointer-events: auto;
+    position: relative;
+    z-index: 1001;
+    
+    &:hover,
+    &:focus,
+    &[data-focused="true"] {
+        // background-color: hsl(var(--r-surface-mid), 1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    }
+    
+    &:focus-visible {
+        // outline: 2px solid hsl(var(--r-primary), 0.6);
+        outline-offset: 2px;
+    }
+}
+
+
+
+@keyframes slideInStagger {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+// .dropdownContent {
+//     >*{
+//        width: calc(100% - 20px);
+//    }
+// }

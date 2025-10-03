@@ -52,74 +52,25 @@ export const setIsAdmin = async (userId?: string) => {
     })
 }
 
-export const registerUser = async ({ email, username, password }: ILoginForm) => {
-    setUserState({
-        ...userState(),
-        isLoading: true,
-        isError: undefined
-    })
 
 
-    return await pb
+export const registerUser = ({ email, username, password }: ILoginForm)=>{
+    return pb
         .collection("users")
         .create({
             email: email, username: username, password: password, passwordConfirm: password
-        })
-        .then(() => {
-            setUserState({
-                ...userState(),
-                isLoading: false,
-                user: pb.authStore.record,
-                pb: pb
-            })
-            notify({ title: t(`User registered. You can sign in now.`), color: "hsla(var(--r-good), 0.6)", duration: 6000 })
-            return true
-        }).catch((e) => {
-            setUserState({
-                ...userState(),
-                isLoading: false,
-                isError: e
-            })
-            notify({ title: t(`Couldn't register user.`), color: "hsla(var(--r-danger), 1)", message: t(e.response.data.username.message), duration: 6000, dismissible: true })
-            return false
-        }
-        )
+    })
 }
 
-
-export const signIn = async ({ username, password }: ILoginForm) => {
-    setUserState({
-        ...userState(),
-        isLoading: true,
-        isError: undefined,
-        userToken: pb.authStore.token
-    })
-    return await pb
+export const signIn = async ({ username, password }: ILoginForm)=>{
+    return pb
         .collection("users")
         .authWithPassword(username, password)
         .then(async (a) => {
-            setIsAdmin(a.record.id)
-            setUserState({
-                ...userState(),
-                user: a.record,
-                isLoading: false,
-                isError: undefined,
-                isSignedIn: true,
-                pb: pb,
-                userToken: pb.authStore.token
-            })
-            notify({ title: `${t(`Signed in`)}. ${t(`Welcome`)}, ${username}`, color: "hsla(var(--r-good), 0.6)", duration: 6000 })
-            return true
-        }).catch((e) => {
-            setUserState({
-                ...userState(),
-                isLoading: false,
-                isError: e
-            })
-            notify({ title: t(`Couldn't sign in user.`), color: "hsla(var(--r-danger), 1)", message: t(userState().isError?.response.message), duration: 6000, dismissible: true })
-            return false
-        })
+            setIsAdmin(a.record.id)})
 }
+
+
 
 export const signOut = async () => {
     setUserState({
@@ -136,8 +87,11 @@ export const signOut = async () => {
     notify({ title: t(`Signed out`), color: "hsla(var(--r-good), 0.6)", duration: 6000 })
 }
 
+export const sendEmailChangeRequest = async (email: string)=>{
+    return pb.collection('users').requestEmailChange(email)
+}
 
-export const sendEmailChangeRequest = async (email: string) => {
+export const sendEmailChangeRequest2 = async (email: string) => {
     setUserState({
         ...userState(),
         isLoading: true,
@@ -301,3 +255,87 @@ export const authRefresh = async(successMsg?: string, errorMsg?: string)=>{
     )
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// export const registerUser2 = async ({ email, username, password }: ILoginForm) => {
+//     setUserState({
+//         ...userState(),
+//         isLoading: true,
+//         isError: undefined
+//     })
+
+//     return await pb
+//         .collection("users")
+//         .create({
+//             email: email, username: username, password: password, passwordConfirm: password
+//         })
+//         .then(() => {
+//             setUserState({
+//                 ...userState(),
+//                 isLoading: false,
+//                 user: pb.authStore.record,
+//                 pb: pb
+//             })
+//             notify({ title: t(`User registered. You can sign in now.`), color: "hsla(var(--r-good), 0.6)", duration: 6000 })
+//             return true
+//         }).catch((e) => {
+//             setUserState({
+//                 ...userState(),
+//                 isLoading: false,
+//                 isError: e
+//             })
+//             notify({ title: t(`Couldn't register user.`), color: "hsla(var(--r-danger), 1)", message: t(e.response.data.username.message), duration: 6000, dismissible: true })
+//             return false
+//         }
+//         )
+// }
+
+// export const signIn2 = async ({ username, password }: ILoginForm) => {
+//     setUserState({
+//         ...userState(),
+//         isLoading: true,
+//         isError: undefined,
+//         userToken: pb.authStore.token
+//     })
+//     return await pb
+//         .collection("users")
+//         .authWithPassword(username, password)
+//         .then(async (a) => {
+//             setIsAdmin(a.record.id)
+//             setUserState({
+//                 ...userState(),
+//                 user: a.record,
+//                 isLoading: false,
+//                 isError: undefined,
+//                 isSignedIn: true,
+//                 pb: pb,
+//                 userToken: pb.authStore.token
+//             })
+//             notify({ title: `${t(`Signed in`)}. ${t(`Welcome`)}, ${username}`, color: "hsla(var(--r-good), 0.6)", duration: 6000 })
+//             return true
+//         }).catch((e) => {
+//             setUserState({
+//                 ...userState(),
+//                 isLoading: false,
+//                 isError: e
+//             })
+//             notify({ title: t(`Couldn't sign in user.`), color: "hsla(var(--r-danger), 1)", message: t(userState().isError?.response.message), duration: 6000, dismissible: true })
+//             return false
+//         })
+// }

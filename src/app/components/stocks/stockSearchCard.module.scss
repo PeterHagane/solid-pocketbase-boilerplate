@@ -1,0 +1,53 @@
+.container{
+    border-radius: 10px;
+    // width: 100%;
+    height: auto;
+
+    >*{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .header{
+        font-size: 1rem;
+        overflow: visible;
+    }
+
+    .content{
+        font-size: 0.8rem;
+    }
+
+    .buttons{
+        width: 36px;
+        max-width: 36px;
+        height: 36px;
+        max-height: 36px;
+    }
+
+    .symbol{
+        color: hsla(var(--r-approve), 1);
+        overflow: hidden;
+        >*{        
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+
+    .equity{
+        color: hsla(var(--r-good), 0.8);
+    }
+
+    .crypto{
+        color: hsla(var(--r-warning), 1);
+    }
+
+    .etf{
+        color: hsla(var(--r-nightsky), 1);
+    }
+
+    .option{
+        color: hsla(var(--r-ocean), 1);
+    }
+}

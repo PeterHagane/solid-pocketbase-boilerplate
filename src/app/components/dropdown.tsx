@@ -12,6 +12,7 @@ interface IDropdownMenuProps extends DropdownMenuRootProps {
 	triggerId?: string,
 	closeOnSelect?: boolean
 	placement?: 'top' | 'bottom' | 'left' | 'right' | "bottom-start" | "bottom-end" | "top-start" | "top-end" | "left-start" | "left-end" | "right-start" | "right-end";
+	isOpen?: boolean;
 }
 
 export const DropdownMenu = (
@@ -21,7 +22,7 @@ export const DropdownMenu = (
 	const props = Object.assign( _props, { closeOnSelect: true })
 
 	createEffect(() => {
-		props.onOpenChange && props.onOpenChange(open())
+		props.isOpen && setOpen(props.isOpen)
 	})
 
 	return (
@@ -44,9 +45,9 @@ export const DropdownMenu = (
 				}
 			}}
 		>
-			<KDropdownMenu.Trigger class={cx(open() ? css.bgOpen : '', _props.class)}>
+			{_props.trigger && <KDropdownMenu.Trigger class={cx(open() ? css.bgOpen : '', _props.class)}>
 				{_props.trigger}
-			</KDropdownMenu.Trigger>
+			</KDropdownMenu.Trigger>}
 			<KDropdownMenu.Portal>
 				<KDropdownMenu.Content
 					class={cx('flex column gap padding rounding', css.dropdownContent)}

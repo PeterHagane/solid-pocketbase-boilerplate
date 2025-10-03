@@ -11,7 +11,7 @@ import { getLocalStorageTheme, saveTheme } from "./stores/themesStore"
 import Profile from "./pages/profile"
 import { useScreenSize } from "./stores/settingsStore"
 import NotFound from "./pages/404"
-
+import { QueryClient, QueryClientProvider } from "@tanstack/solid-query"
 
 function App() {
   const [mountListener, cleanupListener] = useScreenSize()
@@ -27,21 +27,24 @@ function App() {
     cleanupListener()
   })
 
+  const queryClient = new QueryClient()
 
   return (
     <>
-      <Router root={(props: any) => <Layout>
-        {props.children}
-      </Layout>}>
-        <Route path="/login" component={() => <Login />} />
-        <Route path="/" component={() => <ProtectedRoute><Home /></ProtectedRoute>} />
-        <Route path="/profile" component={() => <ProtectedRoute><Profile /></ProtectedRoute>} />
-        {process.env.APP_IS_DEV === "true" && <Route path="/playground" component={() => <ProtectedRoute><Playground /></ProtectedRoute>} />}        
-        <Route path="/admin" component={() => <ProtectedRoute><Admin /></ProtectedRoute>} />
-        <Route path="*404" component={()=><NotFound/>} />
-      </Router>
-
-      <Toaster position="bottom-right" />
+      <QueryClientProvider client={queryClient}>
+          <Router root={(props: any) => <Layout>
+            {props.children}
+          </Layout>}>
+            <Route path="/login" component={() => <Login />} />
+            <Route path="/" component={() => <ProtectedRoute><Home /></ProtectedRoute>} />
+            <Route path="/profile" component={() => <ProtectedRoute><Profile /></ProtectedRoute>} />
+            {process.env.APP_IS_DEV === "true" && <Route path="/playground" component={() => <ProtectedRoute><Playground /></ProtectedRoute>} />}        
+            <Route path="/admin" component={() => <ProtectedRoute><Admin /></ProtectedRoute>} />
+            <Route path="*404" component={()=><NotFound/>} />
+          </Router>
+          
+          <Toaster position="bottom-right" />
+      </QueryClientProvider>
     </>
   )
 }

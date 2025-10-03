@@ -17,9 +17,8 @@ export const Profile: Component = () => {
 
 
     return (
-        <div
-            class={cx("flex column", css.profile)}>
-            <div class={cx("pagePadding flex", css.title)}>
+        <div class={cx("flex column page", css.profile)}>
+            <div class={cx("flex", css.title)}>
                 <div class="flex column">
                 <h1 data-translate>User profile</h1>
                 {userState().user && <h3 class={"flex row center wrap gap"}><T p={":"}>Signed in as</T> <span class={"flex row center"}>
@@ -30,7 +29,7 @@ export const Profile: Component = () => {
                 </div>
                 <Avatar upload class={"marginLeft"}></Avatar>
             </div>
-            <section class={cx("grid center pagePadding", css.section)} max-col-count={2} min-col-size={"20rem"}>
+            <section class={cx("grid center")} max-col-count={2} min-col-size={"35ch"}>
                 <div class={cx("flex column shadow rounding gridCard")}>
                     <h2 data-translate>Account status</h2>
                     <p><T>Email</T>: {userState().user?.email === "" ? t("No email registered.") : userState().user?.email}</p>

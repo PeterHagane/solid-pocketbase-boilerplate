@@ -35,12 +35,21 @@ importers:
       '@solid-primitives/mutation-observer':
         specifier: ^1.2.0
         version: 1.2.0(solid-js@1.9.5)
+      '@solid-primitives/refs':
+        specifier: ^1.1.2
+        version: 1.1.2(solid-js@1.9.5)
+      '@solid-primitives/scheduled':
+        specifier: ^1.5.2
+        version: 1.5.2(solid-js@1.9.5)
       '@solidjs/router':
         specifier: ^0.15.3
         version: 0.15.3(solid-js@1.9.5)
       '@soorria/solid-dropzone':
         specifier: ^1.0.1
         version: 1.0.1(solid-js@1.9.5)
+      '@tanstack/solid-query':
+        specifier: ^5.90.3
+        version: 5.90.3(solid-js@1.9.5)
       '@tanstack/solid-store':
         specifier: ^0.6.0
         version: 0.6.0(solid-js@1.9.5)
@@ -65,6 +74,9 @@ importers:
       solid-js:
         specifier: ^1.9.3
         version: 1.9.5
+      solid-outside-click-handler:
+        specifier: ^0.1.0
+        version: 0.1.0(solid-js@1.9.5)
       solid-toast:
         specifier: ^0.5.0
         version: 0.5.0(solid-js@1.9.5)
@@ -640,8 +652,8 @@ packages:
     peerDependencies:
       solid-js: ^1.6.12
 
-  '@solid-primitives/refs@1.1.0':
-    resolution: {integrity: sha512-QJ3bTSQOlPdHBP2m6llrT13FvVzAwZfx41lTN8lQrRwwcZoWb7kfCAjhaohPnwkAsQ6nJpLjtGfT5GOyuCA4tA==}
+  '@solid-primitives/refs@1.1.2':
+    resolution: {integrity: sha512-K7tf2thy7L+YJjdqXspXOg5xvNEOH8tgEWsp0+1mQk3obHBRD6hEjYZk7p7FlJphSZImS35je3UfmWuD7MhDfg==}
     peerDependencies:
       solid-js: ^1.6.12
 
@@ -652,6 +664,11 @@ packages:
 
   '@solid-primitives/rootless@1.5.0':
     resolution: {integrity: sha512-YJ+EveQeDv9DLqfDKfsPAAGy2x3vBruoD23yn+nD2dT84QjoBxWT1T0qA0TMFjek6/xuN3flqnHtQ4r++4zdjg==}
+    peerDependencies:
+      solid-js: ^1.6.12
+
+  '@solid-primitives/scheduled@1.5.2':
+    resolution: {integrity: sha512-/j2igE0xyNaHhj6kMfcUQn5rAVSTLbAX+CDEBm25hSNBmNiHLu2lM7Usj2kJJ5j36D67bE8wR1hBNA8hjtvsQA==}
     peerDependencies:
       solid-js: ^1.6.12
 
@@ -675,6 +692,11 @@ packages:
     peerDependencies:
       solid-js: ^1.6.12
 
+  '@solid-primitives/utils@6.3.2':
+    resolution: {integrity: sha512-hZ/M/qr25QOCcwDPOHtGjxTD8w2mNyVAYvcfgwzBHq2RwNqHNdDNsMZYap20+ruRwW4A3Cdkczyoz0TSxLCAPQ==}
+    peerDependencies:
+      solid-js: ^1.6.12
+
   '@solidjs/router@0.15.3':
     resolution: {integrity: sha512-iEbW8UKok2Oio7o6Y4VTzLj+KFCmQPGEpm1fS3xixwFBdclFVBvaQVeibl1jys4cujfAK5Kn6+uG2uBm3lxOMw==}
     peerDependencies:
@@ -687,6 +709,14 @@ packages:
 
   '@swc/helpers@0.5.15':
     resolution: {integrity: sha512-JQ5TuMi45Owi4/BIMAJBoSQoOJu12oOk/gADqlcUL9JEdHB8vyjUSsxqeNXnmXHjYKMi2WcYtezGEEhqUI/E2g==}
+
+  '@tanstack/query-core@5.90.2':
+    resolution: {integrity: sha512-k/TcR3YalnzibscALLwxeiLUub6jN5EDLwKDiO7q5f4ICEoptJ+n9+7vcEFy5/x/i6Q+Lb/tXrsKCggf5uQJXQ==}
+
+  '@tanstack/solid-query@5.90.3':
+    resolution: {integrity: sha512-XEP+fzZYes+GLA4HSvmitj2NCC7o9iwMvwdkI5R7YSQD08jd1rA9p4KUYWvcu8VfMD+jodOCn/iMHmPz8zV3qw==}
+    peerDependencies:
+      solid-js: ^1.6.0
 
   '@tanstack/solid-store@0.6.0':
     resolution: {integrity: sha512-2lkalYD/au4PiMWm7Q26FiwLW3DO1xRACY7cPwKMud8rPFlB4tV7SNPq1j41/wtRayFCkR2MOe1+msW1TmMvYw==}
@@ -1182,6 +1212,11 @@ packages:
 
   solid-js@1.9.5:
     resolution: {integrity: sha512-ogI3DaFcyn6UhYhrgcyRAMbu/buBJitYQASZz5WzfQVPP10RD2AbCoRZ517psnezrasyCbWzIxZ6kVqet768xw==}
+
+  solid-outside-click-handler@0.1.0:
+    resolution: {integrity: sha512-gvXZuJqCuVTCuao1pqFHFVW20/nDw2rxk4ieSfS57sOfwChx3v3l+hyL/pdHKqdPbCWvPcvAvJP2wvJEoWru5g==}
+    peerDependencies:
+      solid-js: ^1.4.7
 
   solid-presence@0.1.8:
     resolution: {integrity: sha512-pWGtXUFWYYUZNbg5YpG5vkQJyOtzn2KXhxYaMx/4I+lylTLYkITOLevaCwMRN+liCVk0pqB6EayLWojNqBFECA==}
@@ -1745,7 +1780,7 @@ snapshots:
       '@solid-primitives/map': 0.4.13(solid-js@1.9.5)
       '@solid-primitives/media': 2.3.0(solid-js@1.9.5)
       '@solid-primitives/props': 3.2.0(solid-js@1.9.5)
-      '@solid-primitives/refs': 1.1.0(solid-js@1.9.5)
+      '@solid-primitives/refs': 1.1.2(solid-js@1.9.5)
       '@solid-primitives/utils': 6.3.0(solid-js@1.9.5)
       solid-js: 1.9.5
 
@@ -1906,9 +1941,9 @@ snapshots:
       '@solid-primitives/utils': 6.3.0(solid-js@1.9.5)
       solid-js: 1.9.5
 
-  '@solid-primitives/refs@1.1.0(solid-js@1.9.5)':
+  '@solid-primitives/refs@1.1.2(solid-js@1.9.5)':
     dependencies:
-      '@solid-primitives/utils': 6.3.0(solid-js@1.9.5)
+      '@solid-primitives/utils': 6.3.2(solid-js@1.9.5)
       solid-js: 1.9.5
 
   '@solid-primitives/resize-observer@2.1.0(solid-js@1.9.5)':
@@ -1922,6 +1957,10 @@ snapshots:
   '@solid-primitives/rootless@1.5.0(solid-js@1.9.5)':
     dependencies:
       '@solid-primitives/utils': 6.3.0(solid-js@1.9.5)
+      solid-js: 1.9.5
+
+  '@solid-primitives/scheduled@1.5.2(solid-js@1.9.5)':
+    dependencies:
       solid-js: 1.9.5
 
   '@solid-primitives/static-store@0.1.0(solid-js@1.9.5)':
@@ -1942,6 +1981,10 @@ snapshots:
     dependencies:
       solid-js: 1.9.5
 
+  '@solid-primitives/utils@6.3.2(solid-js@1.9.5)':
+    dependencies:
+      solid-js: 1.9.5
+
   '@solidjs/router@0.15.3(solid-js@1.9.5)':
     dependencies:
       solid-js: 1.9.5
@@ -1954,6 +1997,13 @@ snapshots:
   '@swc/helpers@0.5.15':
     dependencies:
       tslib: 2.8.1
+
+  '@tanstack/query-core@5.90.2': {}
+
+  '@tanstack/solid-query@5.90.3(solid-js@1.9.5)':
+    dependencies:
+      '@tanstack/query-core': 5.90.2
+      solid-js: 1.9.5
 
   '@tanstack/solid-store@0.6.0(solid-js@1.9.5)':
     dependencies:
@@ -2441,6 +2491,10 @@ snapshots:
       seroval: 1.2.1
       seroval-plugins: 1.2.1(seroval@1.2.1)
 
+  solid-outside-click-handler@0.1.0(solid-js@1.9.5):
+    dependencies:
+      solid-js: 1.9.5
+
   solid-presence@0.1.8(solid-js@1.9.5):
     dependencies:
       '@corvu/utils': 0.4.2(solid-js@1.9.5)
@@ -2466,7 +2520,7 @@ snapshots:
 
   solid-transition-group@0.3.0(solid-js@1.9.5):
     dependencies:
-      '@solid-primitives/refs': 1.1.0(solid-js@1.9.5)
+      '@solid-primitives/refs': 1.1.2(solid-js@1.9.5)
       '@solid-primitives/transition-group': 1.1.0(solid-js@1.9.5)
       solid-js: 1.9.5
 

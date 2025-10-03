@@ -69,11 +69,11 @@ body {
     overflow-y: auto;
 }
 
-.pagePadding{
+/* .pagePadding{
     --contentWidth: attr(content-width type(*), 80ch);
     --padding: 0.2rem; 
     padding: var(--padding) max(var(--padding), 50vw - var(--contentWidth) / 2);
-}
+} */
 
 #root {
     --border-color: hsla(var(--r-primary), 0.2);
@@ -87,9 +87,7 @@ body {
         "left main right"
         "footer footer footer";
 
-    > {
-        background-color: var(--border-color);
-    }
+
 
     >nav {
         grid-area: navbar;
@@ -112,4 +110,13 @@ body {
         grid-area: footer;
 
     }
+}
+
+
+.page{
+    /* prefer 80ch, else 100% */
+    width: clamp(45ch, 100%, 80ch);
+    /* https://web.dev/articles/min-max-clamp */
+    margin: 0.5rem;
+    height: 100%;
 }

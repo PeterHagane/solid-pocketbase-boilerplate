@@ -1,6 +1,6 @@
 import { createSignal, Show } from "solid-js";
 import { useNavigate } from "@solidjs/router";
-import { pb, registerUser, setUserState, signIn, userState } from "../stores/pocketBase";
+import { pb, registerUser, setUserState, signIn } from "../stores/pocketBase";
 import css from "./loginForm.module.scss"
 import cx from "classnames";
 import { Loader } from "./loader";
@@ -8,6 +8,7 @@ import { changeStyle, delayStateChange, isValidEmail, uuid } from "../../utils/U
 import { IoEnterOutline } from "solid-icons/io";
 import { notify } from "./notify";
 import { t } from "../stores/translationStore";
+import usePBQuery from "../stores/hooks/usePocketBaseQuery";
 
 export const loginIds = {
     userName: "userName" + uuid(),
@@ -34,17 +35,27 @@ const LoginForm = (_props: ILoginFormProps) => {
     const navigate = useNavigate();
     const [fields, setFields] = createSignal<ILoginForm>({ username: "", password: "", isValid: false })
 
-    const handleSignIn = async (data: ILoginForm) => {
-        signIn({ username: data.username, password: data.password }).then((didSignIn) => {
-            didSignIn && navigate("/")
-        })
-    }
+    const { fetch: signInUser, isFetching: isSigningIn } = usePBQuery({
+        queryFn: () => signIn({ username: fields().username, password: fields().password }).then(() => {
+            navigate("/")
+        }),
+        successMessage: "Signed in",
+        errorMessage: "Couldn't sign in user",
+        manual: true
+      })
 
-    const handleRegister = async (data: ILoginForm) => {
-        registerUser({ email: isValidEmail(data.username) ? data.username : "", username: !isValidEmail(data.username) ? data.username : "", password: data.password }).then(() => {
-            navigate("/login")
-        })
-    }
+    const { fetch: register, isFetching: isRegistering } = usePBQuery({
+      queryFn: () => registerUser({ 
+        email: isValidEmail(fields().username) ? fields().username : "",
+        username: !isValidEmail(fields().username) ? fields().username : "",
+        password: fields().password
+        }).then(() => {
+        navigate("/login")
+        }),
+      successMessage: 'User created successfully',
+      errorMessage: 'Failed to create user',
+      manual: true
+    })
 
     let usernameRef: HTMLInputElement | undefined;
     let passwordRef: HTMLInputElement | undefined;
@@ -54,7 +65,7 @@ const LoginForm = (_props: ILoginFormProps) => {
             onSubmit={(e) => { e.preventDefault() }}
             class={cx("flex start center column gap-s form", css.container, _props.class)}>
             
-            {userState().isLoading && <Loader></Loader>}
+            {(isRegistering() || isSigningIn()) && <Loader></Loader>}
                         {_props.title && <h2 data-translate>{_props.title}</h2>}
             <input oninput={(e) => {
                 setFields({ ...fields(), username: e.target.value })
@@ -91,7 +102,7 @@ const LoginForm = (_props: ILoginFormProps) => {
                     type="submit"
                     data-translate
                     onClick={(e) => {
-                        handleSignIn(fields())
+                        signInUser()// handleSignIn(fields())
                         changeStyle(e.currentTarget as HTMLElement, "bounceSVGright", 200)
                     }}
 
@@ -106,7 +117,9 @@ const LoginForm = (_props: ILoginFormProps) => {
                 </button>
                 <button
                     id={loginIds.registerButton}
-                    onClick={() => handleRegister(fields())}
+                    onClick={() => 
+                        register()
+                    }
                     value="newuser"
                     type="submit"
                     disabled={!fields().isValid} 

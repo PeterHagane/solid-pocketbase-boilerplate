@@ -18,15 +18,15 @@ p {
 }
 
 .margin-s {
-  margin: 5px
+  margin: 5px;
 }
 
 .margin-m {
-  margin: 10px
+  margin: 10px;
 }
 
 .margin-l {
-  margin: 15px
+  margin: 15px;
 }
 
 .fullWidth {
@@ -78,19 +78,19 @@ p {
 
 .gap {
   --gap: attr(data-gap type(<length>), 5px);
-  gap: var(--gap)
+  gap: var(--gap);
 }
 
 .gap-s {
-  gap: 5px
+  gap: 5px;
 }
 
 .gap-m {
-  gap: 10px
+  gap: 10px;
 }
 
 .gap-l {
-  gap: 15px
+  gap: 15px;
 }
 
 /* end flex */
@@ -391,11 +391,10 @@ input:-webkit-autofill:active {
 }
 
 
-
-
 .grid {
   --grid-max-col-count: attr(max-col-count type(<number>), 3);
   --grid-min-col-size: attr(min-col-size type(*), 20rem);
+  /* --grid-max-col-size: attr(max-col-size type(*), 30rem); */
   --grid-gap: 1rem;
 
   /* calculations, do not touch */
@@ -417,7 +416,6 @@ input:-webkit-autofill:active {
   );
 
   >*{height: calc(100% - var(--grid-gap));}
-
 
   .gridCard {
     --card-padding: 0.8rem;

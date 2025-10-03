@@ -29,8 +29,8 @@ export const delayStateChange = (callback: () => void, delay: number) => {
 }
 
 export const delayStateChangeAsync = async (callback: () => void, delayms: number) => {
-  delay(delayms)
-  callback()
+  await delay(delayms)
+  return callback()
 }
 
 export const getScrolledDistance = () => {
@@ -194,4 +194,19 @@ export const setInputValidity = (isValid: boolean, ref?: HTMLInputElement): bool
 export const focusById =(id: string)=>{
   const i = getElementById(id)
   if(i && i.focus)i.focus()
+}
+
+export const fetchWithTimeout = async (resource: string, options: RequestInit & { timeout?: number } = {}) => {
+  const { timeout = 3000 } = options;
+  
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeout);
+
+  const response = await fetch(resource, {
+    ...options,
+    signal: controller.signal  
+  });
+  clearTimeout(id);
+
+  return response;
 }

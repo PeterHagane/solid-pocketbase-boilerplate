@@ -157,11 +157,11 @@ img {
 }
 
 .nostretch {
-  align-items: flex-start
+  align-items: flex-start;
 }
 
 .nostretchSelf {
-  align-self: flex-start
+  align-self: flex-start;
 }
 
 .unclickable,

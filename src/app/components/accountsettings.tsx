@@ -1,12 +1,13 @@
-import { delayStateChange, getElementById, uuid } from "../../utils/Utils"
+import { getElementById, uuid } from "../../utils/Utils"
 import cx from "classnames"
 import css from "./accountisverified.module.scss"
-import { pb, updateCallback, userState } from "../stores/pocketBase";
+import { pb, userState } from "../stores/pocketBase";
 import { FiSave } from "solid-icons/fi";
 import { createEffect, createSignal } from "solid-js";
 import { Input } from "./input";
 import { t } from "../stores/translationStore";
 import Loader from "./loader";
+import usePBQuery from "../stores/hooks/usePocketBaseQuery";
 
 
 type IAccountSettings = {
@@ -27,9 +28,6 @@ export const AccountSettings =()=>{
         }
     )
     const [settings, setSettings] = createSignal<IAccountSettings>({...initialSettings()})
-    const [isLoading, setIsLoading] = createSignal(false)
-    const [hasUpdated, setHasUpdated] = createSignal(false)
-    const [hasError, setHasError] = createSignal(false)
 
     const anyEdited =()=>{
         let edited = false
@@ -52,8 +50,24 @@ export const AccountSettings =()=>{
         if(input)input.value = initialSettings()[key as keyof IAccountSettings]
     }
 
+    const { fetch: updateUser, isFetching: isLoading, error, data, didFetch } = usePBQuery({
+        queryFn: () =>  pb.
+            collection("users").update(
+                userState().user?.id || "", 
+                settings()
+            ),
+        successMessage: 'User updated',
+        errorMessage: 'Failed to update user',
+        manual: true,
+      })
+
     createEffect(() => {
-        // console.log(hasError())
+        if(data() || error()) setInitialSettings({
+            username: userState().user?.username,
+            name:  userState().user?.name,
+        })
+
+        // console.log(data(), error(), isUpdatingUser())
     })
 
 
@@ -61,41 +75,8 @@ export const AccountSettings =()=>{
         {isLoading() && <Loader></Loader>}
         <form class={cx("flex center start column gap-s form fullHeight", css.card)}
             onSubmit={(e) => {
-                setIsLoading(true)
                 e.preventDefault()
-                updateCallback(
-                    ()=>{
-                        return pb.collection("users").update(
-                            userState().user?.id || "", 
-                            settings()
-                        )
-                    },
-                    t("Settings updated"),
-                    undefined,
-                    ()=>{
-                        setHasUpdated(true)
-                            delayStateChange(()=>{
-                                setHasUpdated(false)
-                            }, 1000)
-                            setInitialSettings({
-                                username: userState().user?.username,
-                                name:  userState().user?.name,
-                            })
-                            setIsLoading(false)
-                    },
-                    ()=>{
-                        setHasError(true)
-                            delayStateChange(()=>{
-                                setHasError(false)
-                            }, 1000)
-                            setInitialSettings({
-                                username: userState().user?.username,
-                                name:  userState().user?.name,
-                            })
-                            setIsLoading(false)
-                    }
-                )
-                
+                updateUser()
             }}
             onInput={(e)=>{
                 const t = e.target as HTMLInputElement
@@ -117,8 +98,8 @@ export const AccountSettings =()=>{
             resetCallback={()=>{
                 resetValue("username", ids.username)
             }}
-            didSucceed={settings().username !== initialSettings().username && hasUpdated()}
-            didFail={settings().username !== initialSettings().username && hasError()}
+            didSucceed={settings().username !== initialSettings().username && !!data()}
+            didFail={settings().username !== initialSettings().username && !!error()}
             tooltip={
                 (userState().user?.email === ("") ||
                 userState().user?.email === undefined) ?
@@ -136,8 +117,8 @@ export const AccountSettings =()=>{
             resetCallback={()=>{
                 resetValue("name", ids.name)
             }}
-            didSucceed={settings().name !== initialSettings().name && hasUpdated()}
-            didFail={settings().name !== initialSettings().name && hasError()}
+            didSucceed={didFetch()}
+            didFail={!!error()}
             // isLoading={isLoading()}
             ></Input>
 
